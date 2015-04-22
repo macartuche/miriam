@@ -4,8 +4,8 @@
  * and open the template in the editor.
  */
 package ortega.miriam.ui;
- 
-import ortega.miriam.entidades.Clientes;
+  
+import ortega.miriam.entidades.Rol;
 import ortega.miriam.entidades.Usuarios;
 
 
@@ -15,6 +15,7 @@ import ortega.miriam.entidades.Usuarios;
  */
 public class UsuarioForm extends javax.swing.JDialog{
 
+    private Usuarios usuario;
     /**
      * Creates new form ClienteForm
      */
@@ -25,8 +26,23 @@ public class UsuarioForm extends javax.swing.JDialog{
     public UsuarioForm(java.awt.Frame parent, boolean modal, Usuarios usuario) {
         super(parent, modal);
         initComponents(); 
+        this.usuario = usuario;
+        llenarDatos();
+    }
+    
+    private void llenarDatos(){
+        //datos entidad
+        this.nombreTxt.setText(usuario.getEntidadid().getNombres());
+        this.cedulaTxt.setText(usuario.getEntidadid().getIdentificacion());
+        this.mailTxt.setText(usuario.getEntidadid().getCorreo());
+        this.telefonotxt.setText(usuario.getEntidadid().getTelefono());
+        this.direccionTxt.setText(usuario.getEntidadid().getDireccion());
+        //datos usuario
+        this.usernameTxt.setText(usuario.getUsername());
+        this.roles.setSelectedItem(usuario.getRolid());
     }
 
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -40,100 +56,144 @@ public class UsuarioForm extends javax.swing.JDialog{
         entityManager1 = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("facturacionMueblesDesktopPU").createEntityManager();
         query1 = java.beans.Beans.isDesignTime() ? null : entityManager1.createQuery("Select r from Rol r");
         list1 = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : query1.getResultList();
+        jButton1 = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        mailTxt = new javax.swing.JTextField();
         nombreTxt = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
         cedulaTxt = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        mailTxt = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         telefonotxt = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         direccionTxt = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
-        direccionTxt1 = new javax.swing.JTextField();
-        direccionTxt2 = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
+        usernameTxt = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
         roles = new javax.swing.JComboBox();
+        passwordTxt = new javax.swing.JPasswordField();
 
         getContentPane().setLayout(null);
+
+        jButton1.setFont(new java.awt.Font("Lucida Grande", 1, 12)); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ortega/miriam/imagenes/save.png"))); // NOI18N
+        jButton1.setText("Guardar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton1);
+        jButton1.setBounds(243, 390, 150, 40);
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Datos generales", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Abadi MT Condensed Extra Bold", 1, 14))); // NOI18N
+        jPanel1.setLayout(null);
 
         jLabel1.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel1.setText("Nombres:");
-        getContentPane().add(jLabel1);
-        jLabel1.setBounds(23, 30, 127, 16);
-
-        jLabel2.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel2.setText("Correo electrónico:");
-        getContentPane().add(jLabel2);
-        jLabel2.setBounds(20, 90, 130, 20);
+        jPanel1.add(jLabel1);
+        jLabel1.setBounds(10, 30, 127, 16);
+        jPanel1.add(nombreTxt);
+        nombreTxt.setBounds(160, 30, 200, 28);
 
         jLabel3.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel3.setText("Cédula:");
-        getContentPane().add(jLabel3);
-        jLabel3.setBounds(30, 60, 120, 16);
-        getContentPane().add(mailTxt);
-        mailTxt.setBounds(170, 90, 200, 28);
-        getContentPane().add(nombreTxt);
-        nombreTxt.setBounds(170, 30, 200, 28);
-        getContentPane().add(cedulaTxt);
-        cedulaTxt.setBounds(170, 60, 200, 28);
+        jPanel1.add(jLabel3);
+        jLabel3.setBounds(20, 60, 120, 16);
+        jPanel1.add(cedulaTxt);
+        cedulaTxt.setBounds(160, 60, 200, 28);
+
+        jLabel2.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel2.setText("Correo electrónico:");
+        jPanel1.add(jLabel2);
+        jLabel2.setBounds(10, 90, 130, 20);
+        jPanel1.add(mailTxt);
+        mailTxt.setBounds(160, 90, 200, 28);
 
         jLabel4.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel4.setText("Teléfono:");
-        getContentPane().add(jLabel4);
-        jLabel4.setBounds(20, 120, 130, 20);
-        getContentPane().add(telefonotxt);
-        telefonotxt.setBounds(170, 120, 200, 28);
+        jPanel1.add(jLabel4);
+        jLabel4.setBounds(10, 120, 130, 20);
+        jPanel1.add(telefonotxt);
+        telefonotxt.setBounds(160, 120, 200, 28);
 
         jLabel5.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel5.setText("Dirección:");
-        getContentPane().add(jLabel5);
-        jLabel5.setBounds(20, 150, 130, 20);
-        getContentPane().add(direccionTxt);
-        direccionTxt.setBounds(170, 150, 200, 28);
+        jPanel1.add(jLabel5);
+        jLabel5.setBounds(10, 150, 130, 20);
+        jPanel1.add(direccionTxt);
+        direccionTxt.setBounds(160, 150, 200, 28);
 
-        jButton1.setText("Guardar");
-        getContentPane().add(jButton1);
-        jButton1.setBounds(280, 280, 93, 29);
+        getContentPane().add(jPanel1);
+        jPanel1.setBounds(10, 20, 380, 200);
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Credenciales", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Abadi MT Condensed Extra Bold", 1, 14))); // NOI18N
+        jPanel2.setLayout(null);
 
         jLabel6.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel6.setText("Usuario");
-        getContentPane().add(jLabel6);
-        jLabel6.setBounds(20, 180, 130, 20);
-        getContentPane().add(direccionTxt1);
-        direccionTxt1.setBounds(170, 180, 200, 28);
-        getContentPane().add(direccionTxt2);
-        direccionTxt2.setBounds(170, 210, 200, 28);
-
-        jLabel7.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
-        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel7.setText("Rol");
-        getContentPane().add(jLabel7);
-        jLabel7.setBounds(20, 240, 130, 20);
+        jLabel6.setText("Usuario:");
+        jPanel2.add(jLabel6);
+        jLabel6.setBounds(10, 20, 130, 20);
+        jPanel2.add(usernameTxt);
+        usernameTxt.setBounds(160, 20, 200, 28);
 
         jLabel8.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel8.setText("Clave");
-        getContentPane().add(jLabel8);
-        jLabel8.setBounds(20, 210, 130, 20);
+        jLabel8.setText("Clave:");
+        jPanel2.add(jLabel8);
+        jLabel8.setBounds(10, 50, 130, 20);
+
+        jLabel7.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel7.setText("Rol:");
+        jPanel2.add(jLabel7);
+        jLabel7.setBounds(10, 80, 130, 20);
 
         org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, list1, roles);
         bindingGroup.addBinding(jComboBoxBinding);
 
-        getContentPane().add(roles);
-        roles.setBounds(170, 240, 200, 30);
+        jPanel2.add(roles);
+        roles.setBounds(160, 80, 200, 30);
+        jPanel2.add(passwordTxt);
+        passwordTxt.setBounds(160, 50, 200, 28);
+
+        getContentPane().add(jPanel2);
+        jPanel2.setBounds(10, 240, 380, 140);
 
         bindingGroup.bind();
+
+        setBounds(0, 0, 411, 458);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        usuario.getEntidadid().setNombres(this.nombreTxt.getText());
+        usuario.getEntidadid().setIdentificacion(this.cedulaTxt.getText());
+        usuario.getEntidadid().setCorreo(this.mailTxt.getText());
+        usuario.getEntidadid().setDireccion(this.direccionTxt.getText());
+        usuario.getEntidadid().setTelefono(this.telefonotxt.getText());
+
+        //datos de usuario
+         usuario.setActivo(Boolean.TRUE);
+         usuario.setUsername(this.usernameTxt.getText());
+         usuario.setPassword(this.passwordTxt.getText());
+         usuario.setRolid((Rol)roles.getSelectedItem());
+         
+        if (usuario.getId() == null) {
+            UsuarioPanel.crear(usuario); 
+        } else {
+            UsuarioPanel.editar(usuario); 
+        }
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
       public static void main(String args[]) {
@@ -177,8 +237,6 @@ public class UsuarioForm extends javax.swing.JDialog{
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField cedulaTxt;
     private javax.swing.JTextField direccionTxt;
-    private javax.swing.JTextField direccionTxt1;
-    private javax.swing.JTextField direccionTxt2;
     private javax.persistence.EntityManager entityManager1;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
@@ -189,12 +247,16 @@ public class UsuarioForm extends javax.swing.JDialog{
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private java.util.List list1;
     private javax.swing.JTextField mailTxt;
     private javax.swing.JTextField nombreTxt;
+    private javax.swing.JPasswordField passwordTxt;
     private javax.persistence.Query query1;
     private javax.swing.JComboBox roles;
     private javax.swing.JTextField telefonotxt;
+    private javax.swing.JTextField usernameTxt;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }

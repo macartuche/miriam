@@ -6,6 +6,7 @@
 package ortega.miriam.entidades;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,8 +17,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -32,6 +35,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Proveedores.findByDescripcion", query = "SELECT p FROM Proveedores p WHERE p.descripcion = :descripcion"),
     @NamedQuery(name = "Proveedores.findByActivo", query = "SELECT p FROM Proveedores p WHERE p.activo = :activo")})
 public class Proveedores implements Serializable {
+    @OneToMany(mappedBy = "idproveedor")
+    private List<Factura> facturaList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -108,6 +113,15 @@ public class Proveedores implements Serializable {
     @Override
     public String toString() {
         return "ortega.miriam.entidades.Proveedores[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public List<Factura> getFacturaList() {
+        return facturaList;
+    }
+
+    public void setFacturaList(List<Factura> facturaList) {
+        this.facturaList = facturaList;
     }
     
 }

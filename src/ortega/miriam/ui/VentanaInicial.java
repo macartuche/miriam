@@ -37,16 +37,27 @@ public class VentanaInicial extends javax.swing.JFrame {
         clientesLbl = new javax.swing.JLabel();
         gruposIcon = new javax.swing.JLabel();
         gruposLbl = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        groupsLabel = new javax.swing.JLabel();
+        groupsLabel  = new JLabel("<html>CATEGORÍA DE PRODUCTOS</html>");
+        jLabel2 = new javax.swing.JLabel();
+        productoLbl = new javax.swing.JLabel();
+        clientesIcon1 = new javax.swing.JLabel();
+        clientesLbl1 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        compraLbl = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu3 = new javax.swing.JMenu();
+        jMenuItem4 = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Facturación");
-        setResizable(false);
         getContentPane().setLayout(null);
 
         container.setBackground(new java.awt.Color(51, 51, 51));
@@ -54,6 +65,9 @@ public class VentanaInicial extends javax.swing.JFrame {
 
         usuariosIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ortega/miriam/imagenes/usuarios.jpg"))); // NOI18N
         usuariosIcon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                usuariosIconMouseClicked(evt);
+            }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 usuariosIconMouseExited(evt);
             }
@@ -67,6 +81,9 @@ public class VentanaInicial extends javax.swing.JFrame {
         usuariosLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         usuariosLbl.setText("USUARIOS");
         usuariosLbl.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                usuariosLblMouseClicked(evt);
+            }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 usuariosLblMouseExited(evt);
             }
@@ -77,6 +94,9 @@ public class VentanaInicial extends javax.swing.JFrame {
 
         clientesIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ortega/miriam/imagenes/clientes.png"))); // NOI18N
         clientesIcon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                clientesIconMouseClicked(evt);
+            }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 clientesIconMouseExited(evt);
             }
@@ -90,6 +110,9 @@ public class VentanaInicial extends javax.swing.JFrame {
         clientesLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         clientesLbl.setText("CLIENTES");
         clientesLbl.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                clientesLblMouseClicked(evt);
+            }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 clientesLblMouseExited(evt);
             }
@@ -114,7 +137,7 @@ public class VentanaInicial extends javax.swing.JFrame {
         gruposLbl.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
         gruposLbl.setForeground(new java.awt.Color(255, 255, 255));
         gruposLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        gruposLbl.setText("GRUPOS");
+        gruposLbl.setText("ROLES DE USUARIO");
         gruposLbl.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 gruposLblMouseClicked(evt);
@@ -127,50 +150,211 @@ public class VentanaInicial extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ortega/miriam/imagenes/grupos.png"))); // NOI18N
+
+        groupsLabel.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        groupsLabel.setForeground(new java.awt.Color(255, 255, 255));
+        groupsLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        groupsLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                groupsLabelMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                groupsLabelMouseExited(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                groupsLabelMouseEntered(evt);
+            }
+        });
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ortega/miriam/imagenes/muebles.jpg"))); // NOI18N
+        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel2MouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jLabel2MouseExited(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jLabel2MouseEntered(evt);
+            }
+        });
+
+        productoLbl.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        productoLbl.setForeground(new java.awt.Color(255, 255, 255));
+        productoLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        productoLbl.setText("PRODUCTOS");
+        productoLbl.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                productoLblMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                productoLblMouseExited(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                productoLblMouseEntered(evt);
+            }
+        });
+
+        clientesIcon1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ortega/miriam/imagenes/clientes.png"))); // NOI18N
+        clientesIcon1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                clientesIcon1MouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                clientesIcon1MouseExited(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                clientesIcon1MouseEntered(evt);
+            }
+        });
+
+        clientesLbl1.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        clientesLbl1.setForeground(new java.awt.Color(255, 255, 255));
+        clientesLbl1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        clientesLbl1.setText("PROVEEDORES");
+        clientesLbl1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                clientesLbl1MouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                clientesLbl1MouseExited(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                clientesLbl1MouseEntered(evt);
+            }
+        });
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ortega/miriam/imagenes/compra.jpg"))); // NOI18N
+        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel3MouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jLabel3MouseExited(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jLabel3MouseEntered(evt);
+            }
+        });
+
+        compraLbl.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        compraLbl.setForeground(new java.awt.Color(255, 255, 255));
+        compraLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        compraLbl.setText("FACTURAS DE COMPRA");
+        compraLbl.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                compraLblMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                compraLblMouseExited(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                compraLblMouseEntered(evt);
+            }
+        });
+
         javax.swing.GroupLayout containerLayout = new javax.swing.GroupLayout(container);
         container.setLayout(containerLayout);
         containerLayout.setHorizontalGroup(
             containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(containerLayout.createSequentialGroup()
                 .addGap(29, 29, 29)
-                .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(gruposLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(gruposIcon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(60, 60, 60)
-                .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(usuariosIcon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(usuariosLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(55, 55, 55)
-                .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(clientesIcon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(clientesLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(404, Short.MAX_VALUE))
+                .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(containerLayout.createSequentialGroup()
+                        .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(gruposLbl)
+                            .addGroup(containerLayout.createSequentialGroup()
+                                .addGap(22, 22, 22)
+                                .addComponent(gruposIcon)))
+                        .addGap(60, 60, 60)
+                        .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(usuariosIcon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(usuariosLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(containerLayout.createSequentialGroup()
+                        .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(containerLayout.createSequentialGroup()
+                                .addGap(19, 19, 19)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(groupsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(containerLayout.createSequentialGroup()
+                                .addGap(39, 39, 39)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(containerLayout.createSequentialGroup()
+                                .addGap(31, 31, 31)
+                                .addComponent(productoLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(containerLayout.createSequentialGroup()
+                        .addGap(51, 51, 51)
+                        .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(containerLayout.createSequentialGroup()
+                                .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(clientesIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(clientesLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(60, 60, 60)
+                                .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(clientesIcon1, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(clientesLbl1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(compraLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(containerLayout.createSequentialGroup()
+                        .addGap(85, 85, 85)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(555, Short.MAX_VALUE))
         );
         containerLayout.setVerticalGroup(
             containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(containerLayout.createSequentialGroup()
-                .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGap(29, 29, 29)
+                .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(clientesIcon1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(usuariosIcon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(gruposIcon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(clientesIcon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(gruposLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(usuariosLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(clientesLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(clientesLbl1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(71, 71, 71)
+                .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(containerLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(clientesIcon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(clientesLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, containerLayout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(usuariosIcon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(gruposIcon))
+                        .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(groupsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(productoLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(containerLayout.createSequentialGroup()
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(gruposLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(usuariosLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(407, Short.MAX_VALUE))
+                        .addComponent(compraLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(173, Short.MAX_VALUE))
         );
 
         getContentPane().add(container);
-        container.setBounds(0, 6, 950, 600);
+        container.setBounds(0, 0, 1350, 620);
+
+        jMenu3.setText("Inicio");
+        jMenu3.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
+        jMenu3.setMaximumSize(new java.awt.Dimension(100, 32767));
+
+        jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_H, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem4.setText("Ventana inicial");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem4);
+
+        jMenuBar1.add(jMenu3);
 
         jMenu1.setText("Administración");
+        jMenu1.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
+        jMenu1.setMaximumSize(new java.awt.Dimension(160, 32767));
 
         jMenuItem1.setText("Roles");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
@@ -199,30 +383,34 @@ public class VentanaInicial extends javax.swing.JFrame {
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Inventario");
+        jMenu2.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
+        jMenu2.setMaximumSize(new java.awt.Dimension(120, 32767));
+        jMenu2.add(jSeparator2);
+
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
 
-        setBounds(0, 0, 967, 650);
+        setSize(new java.awt.Dimension(1355, 662));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         abrirRoles();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
-    private void abrirRoles() { 
+    private void abrirRoles() {
         container.removeAll();
         RolPanel demo = new RolPanel();
         container.add(demo);
-        demo.setBounds(0, 8, 600, 600); 
+        demo.setBounds(0, 0, 1020, 559);
     }
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         // TODO add your handling code here:
         abrirClientes();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
-    
-    private void abrirClientes(){
+    private void abrirClientes() {
         container.removeAll();
         ClientePanel demo = new ClientePanel();
         container.add(demo);
@@ -290,12 +478,138 @@ public class VentanaInicial extends javax.swing.JFrame {
         abrirUsuarios();
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
-    private void abrirUsuarios(){
+    private void usuariosLblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usuariosLblMouseClicked
+        abrirUsuarios();
+    }//GEN-LAST:event_usuariosLblMouseClicked
+
+    private void usuariosIconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usuariosIconMouseClicked
+        abrirUsuarios();
+    }//GEN-LAST:event_usuariosIconMouseClicked
+
+    private void clientesLblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clientesLblMouseClicked
+        abrirClientes();
+    }//GEN-LAST:event_clientesLblMouseClicked
+
+    private void clientesIconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clientesIconMouseClicked
+        abrirClientes();
+    }//GEN-LAST:event_clientesIconMouseClicked
+
+    private void groupsLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_groupsLabelMouseClicked
+        abrirGrupos();
+    }//GEN-LAST:event_groupsLabelMouseClicked
+
+    private void groupsLabelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_groupsLabelMouseExited
+        groupsLabel.setForeground(new java.awt.Color(255, 255, 255));
+    }//GEN-LAST:event_groupsLabelMouseExited
+
+    private void groupsLabelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_groupsLabelMouseEntered
+        groupsLabel.setForeground(new java.awt.Color(255, 204, 0));
+
+    }//GEN-LAST:event_groupsLabelMouseEntered
+
+    private void productoLblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_productoLblMouseClicked
+        abrirProductos();
+    }//GEN-LAST:event_productoLblMouseClicked
+
+    private void abrirProductos() {
+        container.removeAll();
+        ProductoPanel demo = new ProductoPanel();
+        container.add(demo);
+        demo.setBounds(0, 0, 1024, 600);
+    }
+
+    private void productoLblMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_productoLblMouseExited
+        productoLbl.setForeground(new java.awt.Color(255, 255, 255));
+    }//GEN-LAST:event_productoLblMouseExited
+
+    private void productoLblMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_productoLblMouseEntered
+        productoLbl.setForeground(new java.awt.Color(255, 204, 0));
+    }//GEN-LAST:event_productoLblMouseEntered
+
+    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
+        abrirProductos();
+    }//GEN-LAST:event_jLabel2MouseClicked
+
+    private void jLabel2MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseEntered
+        productoLbl.setForeground(new java.awt.Color(255, 204, 0));
+    }//GEN-LAST:event_jLabel2MouseEntered
+
+    private void jLabel2MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseExited
+        productoLbl.setForeground(new java.awt.Color(255, 255, 255));
+    }//GEN-LAST:event_jLabel2MouseExited
+
+    private void clientesIcon1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clientesIcon1MouseClicked
+
+    }//GEN-LAST:event_clientesIcon1MouseClicked
+
+    private void clientesIcon1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clientesIcon1MouseExited
+
+    }//GEN-LAST:event_clientesIcon1MouseExited
+
+    private void clientesIcon1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clientesIcon1MouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_clientesIcon1MouseEntered
+
+    private void clientesLbl1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clientesLbl1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_clientesLbl1MouseClicked
+
+    private void clientesLbl1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clientesLbl1MouseExited
+
+    }//GEN-LAST:event_clientesLbl1MouseExited
+
+    private void clientesLbl1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clientesLbl1MouseEntered
+
+    }//GEN-LAST:event_clientesLbl1MouseEntered
+
+    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+        abrirFacturaCompra();
+    }//GEN-LAST:event_jLabel3MouseClicked
+
+    private void abrirFacturaCompra() {
+        container.removeAll();
+        facturaCompraPanel demo = new facturaCompraPanel();
+        container.add(demo);
+        demo.setBounds(0, 0, 900, 800);
+    }
+    private void jLabel3MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseExited
+        compraLbl.setForeground(new java.awt.Color(255, 255, 255));
+    }//GEN-LAST:event_jLabel3MouseExited
+
+    private void jLabel3MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseEntered
+        compraLbl.setForeground(new java.awt.Color(255, 204, 0));
+    }//GEN-LAST:event_jLabel3MouseEntered
+
+    private void compraLblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_compraLblMouseClicked
+        abrirFacturaCompra();
+    }//GEN-LAST:event_compraLblMouseClicked
+
+    private void compraLblMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_compraLblMouseExited
+        compraLbl.setForeground(new java.awt.Color(255, 255, 255));
+    }//GEN-LAST:event_compraLblMouseExited
+
+    private void compraLblMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_compraLblMouseEntered
+        compraLbl.setForeground(new java.awt.Color(255, 204, 0));
+    }//GEN-LAST:event_compraLblMouseEntered
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        mainWindow();
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void abrirGrupos() {
+        container.removeAll();
+        GruposPanel demo = new GruposPanel();
+        container.add(demo);
+        demo.setBounds(0, 0, 900, 600);
+    }
+
+    private void abrirUsuarios() {
         container.removeAll();
         UsuarioPanel demo = new UsuarioPanel();
         container.add(demo);
-        demo.setBounds(0, 8, 800, 600); 
+        demo.setBounds(0, 0, 800, 600);
     }
+
     /**
      * @param args the command line arguments
      */
@@ -326,25 +640,341 @@ public class VentanaInicial extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new VentanaInicial().setVisible(true);
+                VentanaInicial frame = new VentanaInicial();
+                frame.setVisible(true);
+                frame.setLocationRelativeTo(null);
             }
         });
     }
 
+    public void mainWindow() {
+        container.removeAll();
+        usuariosIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ortega/miriam/imagenes/usuarios.jpg"))); // NOI18N
+        usuariosIcon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                usuariosIconMouseClicked(evt);
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                usuariosIconMouseExited(evt);
+            }
+
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                usuariosIconMouseEntered(evt);
+            }
+        });
+
+        usuariosLbl.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        usuariosLbl.setForeground(new java.awt.Color(255, 255, 255));
+        usuariosLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        usuariosLbl.setText("USUARIOS");
+        usuariosLbl.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                usuariosLblMouseClicked(evt);
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                usuariosLblMouseExited(evt);
+            }
+
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                usuariosLblMouseEntered(evt);
+            }
+        });
+
+        clientesIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ortega/miriam/imagenes/clientes.png"))); // NOI18N
+        clientesIcon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                clientesIconMouseClicked(evt);
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                clientesIconMouseExited(evt);
+            }
+
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                clientesIconMouseEntered(evt);
+            }
+        });
+
+        clientesLbl.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        clientesLbl.setForeground(new java.awt.Color(255, 255, 255));
+        clientesLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        clientesLbl.setText("CLIENTES");
+        clientesLbl.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                clientesLblMouseClicked(evt);
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                clientesLblMouseExited(evt);
+            }
+
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                clientesLblMouseEntered(evt);
+            }
+        });
+
+        gruposIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ortega/miriam/imagenes/grupos.jpg"))); // NOI18N
+        gruposIcon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                gruposIconMouseClicked(evt);
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                gruposIconMouseExited(evt);
+            }
+
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                gruposIconMouseEntered(evt);
+            }
+        });
+
+        gruposLbl.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        gruposLbl.setForeground(new java.awt.Color(255, 255, 255));
+        gruposLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        gruposLbl.setText("ROLES DE USUARIO");
+        gruposLbl.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                gruposLblMouseClicked(evt);
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                gruposLblMouseExited(evt);
+            }
+
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                gruposLblMouseEntered(evt);
+            }
+        });
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ortega/miriam/imagenes/grupos.png"))); // NOI18N
+
+        groupsLabel.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        groupsLabel.setForeground(new java.awt.Color(255, 255, 255));
+        groupsLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        groupsLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                groupsLabelMouseClicked(evt);
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                groupsLabelMouseExited(evt);
+            }
+
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                groupsLabelMouseEntered(evt);
+            }
+        });
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ortega/miriam/imagenes/muebles.jpg"))); // NOI18N
+        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel2MouseClicked(evt);
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jLabel2MouseExited(evt);
+            }
+
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jLabel2MouseEntered(evt);
+            }
+        });
+
+        productoLbl.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        productoLbl.setForeground(new java.awt.Color(255, 255, 255));
+        productoLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        productoLbl.setText("PRODUCTOS");
+        productoLbl.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                productoLblMouseClicked(evt);
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                productoLblMouseExited(evt);
+            }
+
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                productoLblMouseEntered(evt);
+            }
+        });
+
+        clientesIcon1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ortega/miriam/imagenes/clientes.png"))); // NOI18N
+        clientesIcon1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                clientesIcon1MouseClicked(evt);
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                clientesIcon1MouseExited(evt);
+            }
+
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                clientesIcon1MouseEntered(evt);
+            }
+        });
+
+        clientesLbl1.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        clientesLbl1.setForeground(new java.awt.Color(255, 255, 255));
+        clientesLbl1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        clientesLbl1.setText("PROVEEDORES");
+        clientesLbl1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                clientesLbl1MouseClicked(evt);
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                clientesLbl1MouseExited(evt);
+            }
+
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                clientesLbl1MouseEntered(evt);
+            }
+        });
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ortega/miriam/imagenes/compra.jpg"))); // NOI18N
+        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel3MouseClicked(evt);
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jLabel3MouseExited(evt);
+            }
+
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jLabel3MouseEntered(evt);
+            }
+        });
+
+        compraLbl.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        compraLbl.setForeground(new java.awt.Color(255, 255, 255));
+        compraLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        compraLbl.setText("FACTURAS DE COMPRA");
+        compraLbl.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                compraLblMouseClicked(evt);
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                compraLblMouseExited(evt);
+            }
+
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                compraLblMouseEntered(evt);
+            }
+        });
+
+        javax.swing.GroupLayout containerLayout = new javax.swing.GroupLayout(container);
+        container.setLayout(containerLayout);
+        containerLayout.setHorizontalGroup(
+                containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(containerLayout.createSequentialGroup()
+                        .addGap(29, 29, 29)
+                        .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(containerLayout.createSequentialGroup()
+                                        .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(gruposLbl)
+                                                .addGroup(containerLayout.createSequentialGroup()
+                                                        .addGap(22, 22, 22)
+                                                        .addComponent(gruposIcon)))
+                                        .addGap(60, 60, 60)
+                                        .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                .addComponent(usuariosIcon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(usuariosLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(containerLayout.createSequentialGroup()
+                                        .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addGroup(containerLayout.createSequentialGroup()
+                                                        .addGap(19, 19, 19)
+                                                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addComponent(groupsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addGroup(containerLayout.createSequentialGroup()
+                                                        .addGap(39, 39, 39)
+                                                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGroup(containerLayout.createSequentialGroup()
+                                                        .addGap(31, 31, 31)
+                                                        .addComponent(productoLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(containerLayout.createSequentialGroup()
+                                        .addGap(51, 51, 51)
+                                        .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addGroup(containerLayout.createSequentialGroup()
+                                                        .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                                .addComponent(clientesIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addComponent(clientesLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                        .addGap(60, 60, 60)
+                                                        .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                                .addComponent(clientesIcon1, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addComponent(clientesLbl1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                .addComponent(compraLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(containerLayout.createSequentialGroup()
+                                        .addGap(85, 85, 85)
+                                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(555, Short.MAX_VALUE))
+        );
+        containerLayout.setVerticalGroup(
+                containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(containerLayout.createSequentialGroup()
+                        .addGap(29, 29, 29)
+                        .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(clientesIcon1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(usuariosIcon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(gruposIcon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(clientesIcon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(gruposLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(usuariosLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(clientesLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(clientesLbl1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(71, 71, 71)
+                        .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(containerLayout.createSequentialGroup()
+                                        .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(groupsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(productoLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(containerLayout.createSequentialGroup()
+                                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(compraLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(173, Short.MAX_VALUE))
+        );
+
+        getContentPane().add(container);
+        container.setBounds(0, 0, 1350, 620);
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel clientesIcon;
+    private javax.swing.JLabel clientesIcon1;
     private javax.swing.JLabel clientesLbl;
+    private javax.swing.JLabel clientesLbl1;
+    private javax.swing.JLabel compraLbl;
     private javax.swing.JPanel container;
+    private javax.swing.JLabel groupsLabel;
     private javax.swing.JLabel gruposIcon;
     private javax.swing.JLabel gruposLbl;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
+    private javax.swing.JLabel productoLbl;
     private javax.swing.JLabel usuariosIcon;
     private javax.swing.JLabel usuariosLbl;
     // End of variables declaration//GEN-END:variables
+
 }

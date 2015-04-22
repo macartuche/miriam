@@ -5,11 +5,7 @@
  */
 package ortega.miriam.ui;
 
-import com.sun.corba.se.impl.protocol.giopmsgheaders.Message;
-import facturacionmueblesdesktop.exceptions.NonexistentEntityException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import ortega.miriam.controladores.RolJpaController;
 import ortega.miriam.entidades.Rol;
@@ -52,35 +48,22 @@ public class RolForm extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Crear/editar Rol");
+        getContentPane().setLayout(null);
+        getContentPane().add(rolNombre);
+        rolNombre.setBounds(10, 10, 261, 40);
 
+        guardar.setFont(new java.awt.Font("Lucida Grande", 1, 12)); // NOI18N
+        guardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ortega/miriam/imagenes/save.png"))); // NOI18N
         guardar.setText("Guardar");
         guardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 guardarActionPerformed(evt);
             }
         });
+        getContentPane().add(guardar);
+        guardar.setBounds(273, 6, 130, 44);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(rolNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(guardar))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(rolNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(guardar))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        pack();
+        setBounds(0, 0, 410, 81);
     }// </editor-fold>//GEN-END:initComponents
 
     private boolean esValido() {
@@ -112,6 +95,24 @@ public class RolForm extends javax.swing.JDialog {
         this.dispose(); 
     }//GEN-LAST:event_guardarActionPerformed
 
+    public static void main(String[]args){
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                Rol rol = new Rol();
+                rol.setEditar(false);
+                RolForm dialog = new RolForm(new javax.swing.JFrame(), true, rol);
+                dialog.setLocationRelativeTo(null);
+               
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        
+                    }
+                });
+                dialog.setVisible(true);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton guardar;
