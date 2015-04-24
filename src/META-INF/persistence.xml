@@ -7,8 +7,14 @@
     <class>ortega.miriam.entidades.Usuarios</class>
     <class>ortega.miriam.entidades.Clientes</class>
     <class>ortega.miriam.entidades.Rol</class>
+    <class>ortega.miriam.entidades.Producto</class>
+    <class>ortega.miriam.entidades.Grupo</class>
+    <class>ortega.miriam.entidades.Factura</class>
+    <class>ortega.miriam.entidades.Detalle</class>
+    <class>ortega.miriam.entidades.Kardex</class>
+    <class>ortega.miriam.entidades.TipoFactura</class>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/facturaMueblesDB1?zeroDateTimeBehavior=convertToNull"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/facturaMueblesdb2?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.password" value=""/>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
       <property name="javax.persistence.jdbc.user" value="root"/>

@@ -8,7 +8,7 @@ import ortega.miriam.entidades.Clientes;
 import ortega.miriam.entidades.Proveedores;
 import ortega.miriam.entidades.Usuarios;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2015-04-21T20:38:36")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2015-04-23T21:01:25")
 @StaticMetamodel(Entidad.class)
 public class Entidad_ { 
 

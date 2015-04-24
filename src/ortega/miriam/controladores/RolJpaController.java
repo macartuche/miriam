@@ -5,8 +5,7 @@
  */
 package ortega.miriam.controladores;
 
-import facturacionmueblesdesktop.exceptions.IllegalOrphanException;
-import facturacionmueblesdesktop.exceptions.NonexistentEntityException;
+import ortega.miriam.controladores.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
@@ -18,6 +17,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import javax.persistence.EntityManager; 
+import ortega.miriam.controladores.exceptions.IllegalOrphanException;
 import ortega.miriam.entidades.Rol;
 
 /**

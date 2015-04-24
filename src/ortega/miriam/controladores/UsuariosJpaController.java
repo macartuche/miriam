@@ -4,16 +4,16 @@
  * and open the template in the editor.
  */
 package ortega.miriam.controladores;
+ 
 
-import facturacionmueblesdesktop.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import ortega.miriam.controladores.exceptions.NonexistentEntityException;
 import ortega.miriam.entidades.Rol;
 import ortega.miriam.entidades.Entidad;
 import ortega.miriam.entidades.Usuarios;

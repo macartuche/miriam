@@ -6,7 +6,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 import ortega.miriam.entidades.Entidad;
 import ortega.miriam.entidades.Rol;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2015-04-21T20:38:36")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2015-04-23T21:01:25")
 @StaticMetamodel(Usuarios.class)
 public class Usuarios_ { 
 

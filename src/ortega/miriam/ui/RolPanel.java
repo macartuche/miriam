@@ -5,14 +5,14 @@
  */
 package ortega.miriam.ui;
 
-import facturacionmueblesdesktop.exceptions.IllegalOrphanException;
-import facturacionmueblesdesktop.exceptions.NonexistentEntityException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import org.jdesktop.beansbinding.BindingGroup;
 import ortega.miriam.controladores.RolJpaController;
+import ortega.miriam.controladores.exceptions.IllegalOrphanException;
+import ortega.miriam.controladores.exceptions.NonexistentEntityException;
 import ortega.miriam.entidades.Rol;
 
 /**
@@ -46,23 +46,55 @@ public class RolPanel extends javax.swing.JPanel {
         rowCountQuery = java.beans.Beans.isDesignTime() ? null : entityManager1.createQuery("Select count(r) from Rol r");
         list1 = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : getRowsQuery.getResultList();
         list1=getList();
+        jPanel1 = new javax.swing.JPanel();
+        eliminarBtn = new javax.swing.JButton();
+        editarBtn = new javax.swing.JButton();
+        nuevoBtn = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        eliminarBtn = new javax.swing.JButton();
-        nuevoBtn = new javax.swing.JButton();
-        editarBtn = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
 
         setLayout(null);
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Roles de usuario", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Abadi MT Condensed Extra Bold", 1, 24))); // NOI18N
+        jPanel1.setLayout(null);
+
+        eliminarBtn.setFont(new java.awt.Font("Lucida Grande", 1, 12)); // NOI18N
+        eliminarBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ortega/miriam/imagenes/delete.png"))); // NOI18N
+        eliminarBtn.setText("Eliminar");
+        eliminarBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                eliminarBtnActionPerformed(evt);
+            }
+        });
+        jPanel1.add(eliminarBtn);
+        eliminarBtn.setBounds(400, 50, 120, 50);
+
+        editarBtn.setFont(new java.awt.Font("Lucida Grande", 1, 12)); // NOI18N
+        editarBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ortega/miriam/imagenes/edit.png"))); // NOI18N
+        editarBtn.setText("Editar");
+        editarBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editarBtnActionPerformed(evt);
+            }
+        });
+        jPanel1.add(editarBtn);
+        editarBtn.setBounds(280, 50, 120, 50);
+
+        nuevoBtn.setFont(new java.awt.Font("Lucida Grande", 1, 12)); // NOI18N
+        nuevoBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ortega/miriam/imagenes/add1.png"))); // NOI18N
+        nuevoBtn.setText("Nuevo");
+        nuevoBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nuevoBtnActionPerformed(evt);
+            }
+        });
+        jPanel1.add(nuevoBtn);
+        nuevoBtn.setBounds(160, 50, 120, 50);
 
         jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, list1, jTable1);
-        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${id}"));
-        columnBinding.setColumnName("Id");
-        columnBinding.setColumnClass(Long.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${nombre}"));
+        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${nombre}"));
         columnBinding.setColumnName("Nombre");
         columnBinding.setColumnClass(String.class);
         columnBinding.setEditable(false);
@@ -70,44 +102,14 @@ public class RolPanel extends javax.swing.JPanel {
         jTableBinding.bind();
         jScrollPane1.setViewportView(jTable1);
         if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(10);
-            jTable1.getColumnModel().getColumn(1).setPreferredWidth(240);
+            jTable1.getColumnModel().getColumn(0).setPreferredWidth(240);
         }
 
-        add(jScrollPane1);
-        jScrollPane1.setBounds(10, 60, 410, 158);
+        jPanel1.add(jScrollPane1);
+        jScrollPane1.setBounds(20, 110, 500, 158);
 
-        eliminarBtn.setText("Eliminar");
-        eliminarBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                eliminarBtnActionPerformed(evt);
-            }
-        });
-        add(eliminarBtn);
-        eliminarBtn.setBounds(420, 120, 170, 29);
-
-        nuevoBtn.setText("Nuevo");
-        nuevoBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nuevoBtnActionPerformed(evt);
-            }
-        });
-        add(nuevoBtn);
-        nuevoBtn.setBounds(420, 60, 170, 29);
-
-        editarBtn.setText("Editar");
-        editarBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                editarBtnActionPerformed(evt);
-            }
-        });
-        add(editarBtn);
-        editarBtn.setBounds(420, 90, 170, 29);
-
-        jLabel1.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
-        jLabel1.setText("Roles de usuario");
-        add(jLabel1);
-        jLabel1.setBounds(220, 10, 190, 30);
+        add(jPanel1);
+        jPanel1.setBounds(20, 30, 540, 290);
 
         bindingGroup.bind();
     }// </editor-fold>//GEN-END:initComponents
@@ -119,23 +121,22 @@ public class RolPanel extends javax.swing.JPanel {
             String title = "Confirmar eliminación";
             int reply = JOptionPane.showConfirmDialog(null, message, title, JOptionPane.YES_NO_OPTION);
             if (reply == JOptionPane.YES_OPTION) {
-                String tipoMensaje = "";
-                String tituloMensaje = "";
-                int tipoMens = 0;
                 try {
+                    String tipoMensaje = "";
+                    String tituloMensaje = "";
+                    int tipoMens = 0;
                     controlador.destroy(r.getId());
                     tipoMensaje = "El registro ha sido actualizado con éxito";
                     tituloMensaje = "Información";
                     tipoMens = JOptionPane.INFORMATION_MESSAGE;
-                } catch (IllegalOrphanException | NonexistentEntityException ex) {
+                    
+                    JOptionPane.showMessageDialog(null, tipoMensaje, tituloMensaje, tipoMens);
+                    actualizar();
+                } catch (IllegalOrphanException ex) {
                     Logger.getLogger(RolPanel.class.getName()).log(Level.SEVERE, null, ex);
-                    tipoMensaje = "Existe un problema al eliminar el registro";
-                    tituloMensaje = "Error";
-                    tipoMens = JOptionPane.ERROR_MESSAGE;
+                } catch (NonexistentEntityException ex) {
+                    Logger.getLogger(RolPanel.class.getName()).log(Level.SEVERE, null, ex);
                 }
-
-                JOptionPane.showMessageDialog(null, tipoMensaje, tituloMensaje, tipoMens);
-                actualizar();
             }
         }
     }//GEN-LAST:event_eliminarBtnActionPerformed
@@ -148,8 +149,7 @@ public class RolPanel extends javax.swing.JPanel {
         int index = jTable1.getSelectedRow();
         Rol rol = null;
         if (index != -1) {
-            Long id = (Long) jTable1.getValueAt(index, 0);
-            rol = controlador.findRol(id);
+            rol = list1.get(index);
         } else {
             JOptionPane.showMessageDialog(this, "Debe seleccionar una fila", "Advertencia", JOptionPane.WARNING_MESSAGE);
         }
@@ -169,10 +169,12 @@ public class RolPanel extends javax.swing.JPanel {
                 Rol rol = new Rol();
                 rol.setEditar(false);
                 RolForm dialog = new RolForm(new javax.swing.JFrame(), true, r);
+                dialog.setLocationRelativeTo(null);
+               
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
-
+                        
                     }
                 });
                 dialog.setVisible(true);
@@ -216,9 +218,7 @@ public class RolPanel extends javax.swing.JPanel {
         RolPanel.actualizar();
     }
 
-    public static void actualizar() {
-//        list1.clear();
-//        System.out.println("=>"+list1);
+    public static void actualizar() { 
         List<Rol> rol = getList();  
         for (Rol rol1 : rol) {
             entityManager1.refresh(rol1);
@@ -229,19 +229,14 @@ public class RolPanel extends javax.swing.JPanel {
         org.jdesktop.swingbinding.JTableBinding jTableBinding
                 = org.jdesktop.swingbinding.SwingBindings.
                 createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, list1, jTable1);
-        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding
-                = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${id}"));
-        columnBinding.setColumnName("Id");
-        columnBinding.setColumnClass(Long.class);
-        columnBinding = jTableBinding.addColumnBinding(
+        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding= jTableBinding.addColumnBinding(
                 org.jdesktop.beansbinding.ELProperty.create("${nombre}"));
         columnBinding.setColumnName("Nombre");
         columnBinding.setColumnClass(String.class);
         bindingGroup.addBinding(jTableBinding);
         bindingGroup.bind();
         if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(10);
-            jTable1.getColumnModel().getColumn(1).setPreferredWidth(240);
+            jTable1.getColumnModel().getColumn(0).setPreferredWidth(240);
         }
     }
 
@@ -250,7 +245,7 @@ public class RolPanel extends javax.swing.JPanel {
     private javax.swing.JButton eliminarBtn;
     public static javax.persistence.EntityManager entityManager1;
     public static javax.persistence.Query getRowsQuery;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     public static javax.swing.JTable jTable1;
     public static java.util.List<Rol> list1;
