@@ -181,7 +181,7 @@
                                   <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="1" attributes="0">
                                       <Component id="clientesIcon1" alignment="1" min="-2" pref="131" max="-2" attributes="0"/>
-                                      <Component id="clientesLbl1" alignment="1" min="-2" pref="142" max="-2" attributes="0"/>
+                                      <Component id="proveedorLbl" alignment="1" min="-2" pref="142" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <Component id="compraLbl" alignment="0" min="-2" pref="227" max="-2" attributes="0"/>
@@ -211,7 +211,7 @@
                       <Component id="gruposLbl" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
                       <Component id="usuariosLbl" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
                       <Component id="clientesLbl" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
-                      <Component id="clientesLbl1" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                      <Component id="proveedorLbl" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="71" pref="71" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
@@ -392,7 +392,7 @@
             <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="clientesIcon1MouseEntered"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JLabel" name="clientesLbl1">
+        <Component class="javax.swing.JLabel" name="proveedorLbl">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Lucida Grande" size="18" style="0"/>
@@ -404,9 +404,9 @@
             <Property name="text" type="java.lang.String" value="PROVEEDORES"/>
           </Properties>
           <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="clientesLbl1MouseClicked"/>
-            <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="clientesLbl1MouseExited"/>
-            <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="clientesLbl1MouseEntered"/>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="proveedorLblMouseClicked"/>
+            <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="proveedorLblMouseExited"/>
+            <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="proveedorLblMouseEntered"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel3">

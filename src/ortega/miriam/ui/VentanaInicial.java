@@ -43,7 +43,7 @@ public class VentanaInicial extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         productoLbl = new javax.swing.JLabel();
         clientesIcon1 = new javax.swing.JLabel();
-        clientesLbl1 = new javax.swing.JLabel();
+        proveedorLbl = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         compraLbl = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -209,19 +209,19 @@ public class VentanaInicial extends javax.swing.JFrame {
             }
         });
 
-        clientesLbl1.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
-        clientesLbl1.setForeground(new java.awt.Color(255, 255, 255));
-        clientesLbl1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        clientesLbl1.setText("PROVEEDORES");
-        clientesLbl1.addMouseListener(new java.awt.event.MouseAdapter() {
+        proveedorLbl.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        proveedorLbl.setForeground(new java.awt.Color(255, 255, 255));
+        proveedorLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        proveedorLbl.setText("PROVEEDORES");
+        proveedorLbl.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                clientesLbl1MouseClicked(evt);
+                proveedorLblMouseClicked(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                clientesLbl1MouseExited(evt);
+                proveedorLblMouseExited(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                clientesLbl1MouseEntered(evt);
+                proveedorLblMouseEntered(evt);
             }
         });
 
@@ -295,7 +295,7 @@ public class VentanaInicial extends javax.swing.JFrame {
                                 .addGap(60, 60, 60)
                                 .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(clientesIcon1, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(clientesLbl1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(proveedorLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(compraLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(containerLayout.createSequentialGroup()
                         .addGap(85, 85, 85)
@@ -316,7 +316,7 @@ public class VentanaInicial extends javax.swing.JFrame {
                     .addComponent(gruposLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(usuariosLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(clientesLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(clientesLbl1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(proveedorLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(71, 71, 71)
                 .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(containerLayout.createSequentialGroup()
@@ -539,28 +539,35 @@ public class VentanaInicial extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel2MouseExited
 
     private void clientesIcon1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clientesIcon1MouseClicked
-
+        abrirProveedores();
     }//GEN-LAST:event_clientesIcon1MouseClicked
 
+    
+    private void abrirProveedores(){
+        container.removeAll();
+        ProveedorPanel demo = new ProveedorPanel();
+        container.add(demo);
+        demo.setBounds(0, 0, 900, 800);
+    }
     private void clientesIcon1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clientesIcon1MouseExited
-
+         proveedorLbl.setForeground(new java.awt.Color(255, 255, 255));
     }//GEN-LAST:event_clientesIcon1MouseExited
 
     private void clientesIcon1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clientesIcon1MouseEntered
-        // TODO add your handling code here:
+         proveedorLbl.setForeground(new java.awt.Color(255, 204, 0));
     }//GEN-LAST:event_clientesIcon1MouseEntered
 
-    private void clientesLbl1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clientesLbl1MouseClicked
+    private void proveedorLblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_proveedorLblMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_clientesLbl1MouseClicked
+    }//GEN-LAST:event_proveedorLblMouseClicked
 
-    private void clientesLbl1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clientesLbl1MouseExited
+    private void proveedorLblMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_proveedorLblMouseExited
+        proveedorLbl.setForeground(new java.awt.Color(255, 255, 255));
+    }//GEN-LAST:event_proveedorLblMouseExited
 
-    }//GEN-LAST:event_clientesLbl1MouseExited
-
-    private void clientesLbl1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clientesLbl1MouseEntered
-
-    }//GEN-LAST:event_clientesLbl1MouseEntered
+    private void proveedorLblMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_proveedorLblMouseEntered
+        proveedorLbl.setForeground(new java.awt.Color(255, 204, 0));
+    }//GEN-LAST:event_proveedorLblMouseEntered
 
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
         abrirFacturaCompra();
@@ -815,21 +822,21 @@ public class VentanaInicial extends javax.swing.JFrame {
             }
         });
 
-        clientesLbl1.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
-        clientesLbl1.setForeground(new java.awt.Color(255, 255, 255));
-        clientesLbl1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        clientesLbl1.setText("PROVEEDORES");
-        clientesLbl1.addMouseListener(new java.awt.event.MouseAdapter() {
+        proveedorLbl.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        proveedorLbl.setForeground(new java.awt.Color(255, 255, 255));
+        proveedorLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        proveedorLbl.setText("PROVEEDORES");
+        proveedorLbl.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                clientesLbl1MouseClicked(evt);
+                proveedorLblMouseClicked(evt);
             }
 
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                clientesLbl1MouseExited(evt);
+                proveedorLblMouseClicked(evt);
             }
 
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                clientesLbl1MouseEntered(evt);
+                proveedorLblMouseClicked(evt);
             }
         });
 
@@ -907,7 +914,7 @@ public class VentanaInicial extends javax.swing.JFrame {
                                                         .addGap(60, 60, 60)
                                                         .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                                                 .addComponent(clientesIcon1, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                .addComponent(clientesLbl1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                                .addComponent(proveedorLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                                 .addComponent(compraLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGroup(containerLayout.createSequentialGroup()
                                         .addGap(85, 85, 85)
@@ -928,7 +935,7 @@ public class VentanaInicial extends javax.swing.JFrame {
                                 .addComponent(gruposLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(usuariosLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(clientesLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(clientesLbl1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(proveedorLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(71, 71, 71)
                         .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(containerLayout.createSequentialGroup()
@@ -954,7 +961,6 @@ public class VentanaInicial extends javax.swing.JFrame {
     private javax.swing.JLabel clientesIcon;
     private javax.swing.JLabel clientesIcon1;
     private javax.swing.JLabel clientesLbl;
-    private javax.swing.JLabel clientesLbl1;
     private javax.swing.JLabel compraLbl;
     private javax.swing.JPanel container;
     private javax.swing.JLabel groupsLabel;
@@ -973,6 +979,7 @@ public class VentanaInicial extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JLabel productoLbl;
+    private javax.swing.JLabel proveedorLbl;
     private javax.swing.JLabel usuariosIcon;
     private javax.swing.JLabel usuariosLbl;
     // End of variables declaration//GEN-END:variables
