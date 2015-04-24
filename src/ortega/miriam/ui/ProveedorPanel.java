@@ -248,22 +248,21 @@ public class ProveedorPanel extends javax.swing.JPanel {
         StringBuilder consulta = new StringBuilder();
         StringBuilder consultaCont = new StringBuilder();
 
-        consulta.append("Select u from Clientes u where 1=1 ");
-        consultaCont.append("Select count(u) from Clientes u where 1=1 ");
+        consulta.append("Select p from Proveedores p where 1=1 ");
+        consultaCont.append("Select count(p) from Proveedores p where 1=1 ");
 
         HashMap<String, Object> parametros = new HashMap<>();
         HashMap<String, Object> parametrosCount = new HashMap<>();
         if (identificacion.length() >= 8) {
-            consulta.append(" and lower(u.entidadid.identificacion) like :identificacion ");
-            consultaCont.append(" and lower(u.entidadid.identificacion) like :identificacion ");
+            consulta.append(" and lower(p.entidadid.identificacion) like :identificacion ");
+            consultaCont.append(" and lower(p.entidadid.identificacion) like :identificacion ");
             parametros.put("identificacion", "%" + identificacion.toLowerCase() + "%");
             parametrosCount.put("identificacion", "%" + identificacion.toLowerCase() + "%");
-
         }
 
         if (!nombres.isEmpty()) {
-            consulta.append(" and lower(u.entidadid.nombres) like :nombre ");
-            consultaCont.append(" and lower(u.entidadid.nombres) like :nombre");
+            consulta.append(" and lower(p.entidadid.nombres) like :nombre ");
+            consultaCont.append(" and lower(p.entidadid.nombres) like :nombre");
             parametros.put("nombre", "%" + nombres.toLowerCase() + "%");
             parametrosCount.put("nombre", "%" + nombres.toLowerCase() + "%");
         }
