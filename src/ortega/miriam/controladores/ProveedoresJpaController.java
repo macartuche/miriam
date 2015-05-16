@@ -22,10 +22,10 @@ import ortega.miriam.entidades.Proveedores;
  *
  * @author macbookpro
  */
-public class ProveedoresJpaController implements Serializable {
+public class ProveedoresJpaController extends EntityManagerlocal  implements Serializable{
 
-    public ProveedoresJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
+    public ProveedoresJpaController( ){
+         super();
     }
     private EntityManagerFactory emf = null;
 
@@ -36,7 +36,7 @@ public class ProveedoresJpaController implements Serializable {
     public void create(Proveedores proveedores) {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = super.getEmf().createEntityManager();
             em.getTransaction().begin();
             Entidad entidadid = proveedores.getEntidadid();
             if (entidadid != null) {
@@ -59,7 +59,7 @@ public class ProveedoresJpaController implements Serializable {
     public void edit(Proveedores proveedores) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = super.getEmf().createEntityManager();
             em.getTransaction().begin();
             Proveedores persistentProveedores = em.find(Proveedores.class, proveedores.getId());
             Entidad entidadidOld = persistentProveedores.getEntidadid();
@@ -97,7 +97,7 @@ public class ProveedoresJpaController implements Serializable {
     public void destroy(Long id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = super.getEmf().createEntityManager();
             em.getTransaction().begin();
             Proveedores proveedores;
             try {
@@ -129,7 +129,7 @@ public class ProveedoresJpaController implements Serializable {
     }
 
     private List<Proveedores> findProveedoresEntities(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
+        EntityManager em = super.getEmf().createEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(Proveedores.class));
@@ -145,7 +145,7 @@ public class ProveedoresJpaController implements Serializable {
     }
 
     public Proveedores findProveedores(Long id) {
-        EntityManager em = getEntityManager();
+        EntityManager em = super.getEmf().createEntityManager();
         try {
             return em.find(Proveedores.class, id);
         } finally {
@@ -154,7 +154,7 @@ public class ProveedoresJpaController implements Serializable {
     }
 
     public int getProveedoresCount() {
-        EntityManager em = getEntityManager();
+        EntityManager em = super.getEmf().createEntityManager();;
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<Proveedores> rt = cq.from(Proveedores.class);
