@@ -7,9 +7,9 @@ package ortega.miriam.ui;
 
 import java.math.BigDecimal;
 import javax.swing.JOptionPane;
+import ortega.miriam.entidades.Detalle;
+import ortega.miriam.entidades.Iva;
 import ortega.miriam.entidades.Producto;
-import ortega.miriam.utils.DetalleTemp;
-import ortega.miriam.utils.IVA;
 
 /**
  *
@@ -17,8 +17,8 @@ import ortega.miriam.utils.IVA;
  */
 public class SelecProdCant extends javax.swing.JDialog {
 
-    private static DetalleTemp detalle;
-
+    private static Detalle detalle;
+    private int tipo;
     /**
      * Creates new form SelecProdCant
      *
@@ -26,25 +26,26 @@ public class SelecProdCant extends javax.swing.JDialog {
      * @param modal
      * @param detalle
      */
-    public SelecProdCant(java.awt.Frame parent, boolean modal, DetalleTemp detalle) {
+    public SelecProdCant(java.awt.Frame parent, boolean modal, Detalle detalle, int tipo) {
         super(parent, modal);
         initComponents();
         this.detalle = detalle;
         fijarDatos();
-        this.ivaCombo.addItem(new IVA("0.12", "12%"));
-        this.ivaCombo.addItem(new IVA("0", "0%"));
+        this.tipo =tipo;
     }
 
     /**
      *
      */
     private void fijarDatos() {
-        if (detalle.getProducto() != null) {
-            this.nombreProd.setText(detalle.getProducto().getNombre());
-            this.precioProd.setText(detalle.getProducto().getPrecioCompra().toString());
+        if (detalle.getIdproducto() != null) {
+            this.nombreProd.setText(detalle.getIdproducto().getNombre());
+            this.precioProd.setText(detalle.getIdproducto().getPrecioCompra().toString());
         }
         this.cantidad.setValue(detalle.getCantidad());
-        this.ivaCombo.setSelectedItem(detalle.getIva());
+        if (detalle.getIvaId() != null) {
+            this.ivaCombo.setSelectedItem(detalle.getIvaId());
+        }
     }
 
     /**
@@ -55,7 +56,13 @@ public class SelecProdCant extends javax.swing.JDialog {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
+        entityManager1 = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("facturacionMueblesDesktopPU").createEntityManager();
+        query1 = java.beans.Beans.isDesignTime() ? null : entityManager1.createQuery("Select i from Iva i");
+        list1 = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : query1.getResultList();
+        ivaQuery = java.beans.Beans.isDesignTime() ? null : entityManager1.createQuery("SELECT i FROM Iva i");
+        ivaList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : ivaQuery.getResultList();
         jLabel1 = new javax.swing.JLabel();
         nombreProd = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
@@ -97,6 +104,9 @@ public class SelecProdCant extends javax.swing.JDialog {
 
         precioProd.setEditable(false);
 
+        org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, list1, ivaCombo);
+        bindingGroup.addBinding(jComboBoxBinding);
+
         cantidad.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 cantidadStateChanged(evt);
@@ -132,40 +142,46 @@ public class SelecProdCant extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(precioProd)
-                                .addGap(75, 75, 75))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(cantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 33, Short.MAX_VALUE)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(ivaCombo, 0, 167, Short.MAX_VALUE)
-                            .addComponent(totalTxt)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGap(123, 123, 123)
+                                .addComponent(nombreProd, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(123, 123, 123)
-                        .addComponent(nombreProd, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(28, 28, 28))
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(28, 28, 28))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(precioProd)
+                                        .addGap(66, 66, 66))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(cantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(ivaCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(totalTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addGap(28, 28, 28))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -185,20 +201,23 @@ public class SelecProdCant extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
-                    .addComponent(ivaCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                    .addComponent(jLabel3)
+                    .addComponent(ivaCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        bindingGroup.bind();
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 ProductosDialog dialog = new ProductosDialog(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -213,11 +232,18 @@ public class SelecProdCant extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-       
-        if (detalle.getProducto() != null) {
-            detalle.setIva((IVA) ivaCombo.getSelectedItem());
+
+        if (detalle.getIdproducto() != null) {
+            Iva iva = (Iva) ivaCombo.getSelectedItem();
+            detalle.setIvaId(iva);
+            detalle.setIva(iva.getValor().multiply(detalle.getIdproducto().getPrecioCompra()));
 //            calcular(detalle.getProducto());
-            FacturaCompra.recibirDetalle(detalle);
+            if(this.tipo==1){
+                FacturaCompra.recibirDetalle(detalle);
+            }else{
+                FacturaVenta.recibirDetalle(detalle);
+            }
+            
             dispose();
         } else {
             JOptionPane.showMessageDialog(this, "Seleccione un producto", "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -230,15 +256,10 @@ public class SelecProdCant extends javax.swing.JDialog {
 
     private void cantidadStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_cantidadStateChanged
         System.out.println(cantidad.getValue());
-        if (detalle.getProducto() != null) {
-            BigDecimal cantidadValue = BigDecimal.valueOf(Long.valueOf(cantidad.getValue().toString()));
-            BigDecimal total = detalle.getProducto().getPrecioCompra().multiply(cantidadValue);
-            totalTxt.setText(total.toString());
-            String detalleIva = detalle.getIva().getValue();
-            detalle.setCantidad(Integer.valueOf(cantidad.getValue().toString()));
-            detalle.setPrecioTotal(total);
-            detalle.setPrecioUnitario(detalle.getProducto().getPrecioCompra());
-            detalle.setIvatotal(detalle.getPrecioTotal().multiply(new BigDecimal(detalleIva)));
+        if (detalle.getIdproducto() != null) {
+            
+        System.out.println(detalle.getIdproducto());
+            calcular(detalle.getIdproducto());
         }
     }//GEN-LAST:event_cantidadStateChanged
 
@@ -248,25 +269,30 @@ public class SelecProdCant extends javax.swing.JDialog {
      */
     public static void recibirProducto(Producto p) {
         nombreProd.setText(p.getNombre());
-        
+
         BigDecimal total = p.getPrecioCompra();  // precioC X1
         precioProd.setText(p.getPrecioCompra().toString());
         totalTxt.setText(total.toString());
 
-        detalle.setProducto(p);
-        calcular(p);
+        detalle.setIdproducto(p);
+        //calcular(p);
     }
 
-    private static void calcular(Producto p) {
+    private void calcular(Producto p) {
+        Integer cant = Integer.valueOf(cantidad.getValue().toString());
+        BigDecimal subtotal = p.getPrecioCompra().multiply(new BigDecimal(cant));  // precioC X1
+        Iva iva = (Iva) ivaCombo.getSelectedItem();
+        BigDecimal ivaValor = subtotal.multiply(iva.getValor());
+        BigDecimal total = subtotal.add(ivaValor);
+        total.setScale(2, BigDecimal.ROUND_HALF_UP);
         
-        BigDecimal total = p.getPrecioCompra();  // precioC X1
-        detalle.setPrecioUnitario(p.getPrecioCompra());
-        detalle.setCantidad(Integer.valueOf(cantidad.getValue().toString()));
-        detalle.setPrecioTotal(total);
-        detalle.setIva((IVA) ivaCombo.getSelectedItem());
-        //12 o 0% de iva
-        String detalleIva = detalle.getIva().getValue();
-        detalle.setIvatotal(detalle.getPrecioTotal().multiply(new BigDecimal(detalleIva)));
+        totalTxt.setText(total.toString());
+        detalle.setPreciounitario(p.getPrecioCompra());
+        detalle.setCantidad(cant);
+        detalle.setTotal(total);
+        detalle.setIva(ivaValor);
+        //12 o 0% de iva 
+        detalle.setIvaId(iva);
     }
 
     /**
@@ -285,15 +311,24 @@ public class SelecProdCant extends javax.swing.JDialog {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(SelecProdCant.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(SelecProdCant.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(SelecProdCant.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(SelecProdCant.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+         /* Create and display the dialog */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                SelecProdCant dialog = new SelecProdCant(new javax.swing.JFrame(), true, new Detalle(),1);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
+            }
+        });
+
         //</editor-fold>
 
         /* Create and display the dialog */
@@ -311,17 +346,30 @@ public class SelecProdCant extends javax.swing.JDialog {
 //        });
     }
 
-    public DetalleTemp getDetalle() {
+    public Detalle getDetalle() {
         return detalle;
     }
 
-    public void setDetalle(DetalleTemp detalle) {
+    public void setDetalle(Detalle detalle) {
         this.detalle = detalle;
     }
 
+    public int getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(int tipo) {
+        this.tipo = tipo;
+    }
+    
+    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private static javax.swing.JSpinner cantidad;
-    private static javax.swing.JComboBox ivaCombo;
+    private javax.persistence.EntityManager entityManager1;
+    private javax.swing.JComboBox ivaCombo;
+    private java.util.List<ortega.miriam.entidades.Iva> ivaList;
+    private javax.persistence.Query ivaQuery;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -330,8 +378,11 @@ public class SelecProdCant extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private java.util.List<Iva> list1;
     private static javax.swing.JTextField nombreProd;
     private static javax.swing.JTextField precioProd;
+    private javax.persistence.Query query1;
     private static javax.swing.JTextField totalTxt;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }

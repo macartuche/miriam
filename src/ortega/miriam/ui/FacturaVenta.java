@@ -15,30 +15,30 @@ import javax.swing.table.DefaultTableModel;
 import ortega.miriam.controladores.DetalleJpaController;
 import ortega.miriam.controladores.FacturaJpaController;
 import ortega.miriam.controladores.exceptions.NonexistentEntityException;
+import ortega.miriam.entidades.Clientes;
 import ortega.miriam.entidades.Detalle;
 import ortega.miriam.entidades.Factura;
-import ortega.miriam.entidades.Proveedores;
 import static ortega.miriam.ui.ProductosDialog.jTable1; 
 
 /**
  *
  * @author macbookpro
  */
-public class FacturaCompra extends javax.swing.JDialog {
+public class FacturaVenta extends javax.swing.JDialog {
 
     private static BigDecimal subtotal;
     private static BigDecimal iva;
     private static BigDecimal total;
-    private static Proveedores proveedor;
+    private static Clientes cliente;
     private static ArrayList<String> errores;
     public static FacturaJpaController controller;
     public static DetalleJpaController controllerDetail;
-    private static Factura facturaC;
+    private static Factura facturaV;
 
     /**
      * Creates new form FacturaCompra
      */
-    public FacturaCompra(java.awt.Frame parent, boolean modal, Factura factura) {
+    public FacturaVenta(java.awt.Frame parent, boolean modal, Factura factura) {
         super(parent, modal);
         initComponents();
         subtotal = new BigDecimal(0);
@@ -47,30 +47,9 @@ public class FacturaCompra extends javax.swing.JDialog {
         errores = new ArrayList<>();
         controller = new FacturaJpaController();
         controllerDetail = new DetalleJpaController();
-        facturaC = factura; 
-        fijarDatos();
+        facturaV = factura;
     }
 
-    private void fijarDatos(){
-        if(facturaC.getId()!=null){
-            nombresTxt.setText(facturaC.getIdproveedor().getEntidadid().getNombres());
-            identificacionTxt.setText(facturaC.getIdproveedor().getEntidadid().getIdentificacion());
-            numeroTxt.setText(facturaC.getNumero());
-            subtotalLbl.setText(facturaC.getSubtotal().toString());
-            ivaLbl.setText(facturaC.getIva().toString());
-            totalLbl.setText(facturaC.getTotal().toString());
-            llenarTabla();
-        }
-    }
-    
-    private void llenarTabla(){
-        DefaultTableModel model = (DefaultTableModel) detalleTabla.getModel();
-        
-        for (Detalle detalle : facturaC.getDetalleList()) {
-            model.addRow(new Object[]{detalle.getCantidad(), detalle.getIdproducto().getNombre(),
-            detalle.getIdproducto().getPrecioCompra().doubleValue(), detalle.getTotal().doubleValue()});
-        }
-    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -104,7 +83,7 @@ public class FacturaCompra extends javax.swing.JDialog {
         jButton6 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Facturas de compras");
+        setTitle("Facturas de venta");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Datos generales", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Abadi MT Condensed Extra Bold", 1, 18))); // NOI18N
 
@@ -117,7 +96,7 @@ public class FacturaCompra extends javax.swing.JDialog {
         identificacionTxt.setEditable(false);
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ortega/miriam/imagenes/search.png"))); // NOI18N
-        jButton1.setText("Seleccionar proveedor");
+        jButton1.setText("Seleccionar cliente");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -358,7 +337,7 @@ public class FacturaCompra extends javax.swing.JDialog {
         detalle.setCantidad(1);
         detalle.setPreciounitario(BigDecimal.ZERO);
         detalle.setTotal(BigDecimal.ZERO);
-        detalle.setIdfactura(facturaC);
+        detalle.setIdfactura(facturaV);
         iniciarSeleccionar(detalle);
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -369,7 +348,7 @@ public class FacturaCompra extends javax.swing.JDialog {
     private void iniciarSeleccionar(final Detalle detalle) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                SelecProdCant dialog = new SelecProdCant(new javax.swing.JFrame(), true, detalle, 1);
+                SelecProdCant dialog = new SelecProdCant(new javax.swing.JFrame(), true, detalle, 2);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -396,7 +375,7 @@ public class FacturaCompra extends javax.swing.JDialog {
         Detalle detalle = null;
         if (index != -1) {
             System.out.println("Indice: " + index);
-            detalle = facturaC.getDetalleList().get(index);
+            detalle = facturaV.getDetalleList().get(index);
         } else {
             JOptionPane.showMessageDialog(this, "Debe seleccionar una fila", "Advertencia", JOptionPane.WARNING_MESSAGE);
         }
@@ -408,10 +387,10 @@ public class FacturaCompra extends javax.swing.JDialog {
      *
      * @param prov
      */
-    public static void recibirProveedor(Proveedores prov) {
-        proveedor = prov;
-        nombresTxt.setText(prov.getEntidadid().getNombres());
-        identificacionTxt.setText(prov.getEntidadid().getIdentificacion());
+    public static void recibirCliente(Clientes cli) {
+        cliente = cli;
+        nombresTxt.setText(cli.getEntidadid().getNombres());
+        identificacionTxt.setText(cli.getEntidadid().getIdentificacion());
     }
 
     /**
@@ -422,7 +401,7 @@ public class FacturaCompra extends javax.swing.JDialog {
      */
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         Detalle detalle = getIndex();
-        facturaC.getDetalleList().remove(detalle);
+        facturaV.getDetalleList().remove(detalle);
         
         //restar la cantidad
         subtotal = subtotal.subtract(detalle.getTotal());
@@ -439,7 +418,7 @@ public class FacturaCompra extends javax.swing.JDialog {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                final BuscarCPForm dialog = new BuscarCPForm(new javax.swing.JFrame(), true);
+                final BuscarClienteForm dialog = new BuscarClienteForm(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -458,12 +437,12 @@ public class FacturaCompra extends javax.swing.JDialog {
     private static boolean validar() {
         boolean error = false;
 
-        if (proveedor == null) {
+        if (cliente == null) {
             error = true;
             errores.add("- Debe seleccionar un proveedor");
         }
 
-        if (facturaC.getDetalleList().isEmpty()) {
+        if (facturaV.getDetalleList().isEmpty()) {
             error = true;
             errores.add("- Debe seleccionar al menos un producto");
         }
@@ -485,30 +464,40 @@ public class FacturaCompra extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, errorMsg, "Error", JOptionPane.ERROR_MESSAGE);
         }
 
-        facturaC.setIdproveedor(proveedor);
-        facturaC.setIva(iva);
-        facturaC.setSubtotal(subtotal);
-        facturaC.setTotal(total);
-        facturaC.setNumero(numeroTxt.getText());
+        facturaV.setIdcliente(cliente);
+        facturaV.setIva(iva);
+        facturaV.setSubtotal(subtotal);
+        facturaV.setTotal(total);
+        facturaV.setNumero(numeroTxt.getText());
 
-        if (facturaC.getId() == null) {
-            facturaCompraPanel.crear(facturaC);
+        if (facturaV.getId() == null) {
+            facturaVentaPanel.crear(facturaV);
             this.dispose();
         } else {
             try {
-                controller.edit(facturaC); 
+                controller.edit(facturaV);
+                //guardar detalle
+                /*for (DetalleTemp lista1 : lista) {
+                    Detalle detalle = new Detalle();
+                    detalle.setCantidad(lista1.getCantidad());
+                    detalle.setIdfactura(facturaC);
+                    detalle.setIdproducto(lista1.getProducto());
+                    detalle.setPreciounitario(lista1.getPrecioUnitario());
+                    detalle.setTotal(lista1.getPrecioTotal());
+                    controllerDetail.create(detalle);
+                }*/
                 JOptionPane.showMessageDialog(this, "Registro actualizado con éxito", "Informativo", JOptionPane.INFORMATION_MESSAGE);
                 dispose();
             } catch (NonexistentEntityException ex) {
-                Logger.getLogger(FacturaCompra.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(FacturaVenta.class.getName()).log(Level.SEVERE, null, ex);
             } catch (Exception ex) {
-                Logger.getLogger(FacturaCompra.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(FacturaVenta.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_jButton5ActionPerformed
 
     public static void recibirDetalle(Detalle detalle) {
-        facturaC.getDetalleList().add(detalle);
+        facturaV.getDetalleList().add(detalle);
 
         //actualizar tabla
         DefaultTableModel model = (DefaultTableModel) detalleTabla.getModel();
@@ -536,29 +525,7 @@ public class FacturaCompra extends javax.swing.JDialog {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FacturaCompra.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FacturaCompra.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FacturaCompra.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FacturaCompra.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
- 
+  
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

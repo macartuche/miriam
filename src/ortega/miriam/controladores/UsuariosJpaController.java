@@ -171,6 +171,13 @@ public class UsuariosJpaController extends EntityManagerlocal implements Seriali
         }
     }
 
+    
+    public Usuarios findByUsername(String username){
+        EntityManager em = super.getEmf().createEntityManager();
+        Query q=em.createNamedQuery("Usuarios.findByUsername");
+        q.setParameter("username", username.toLowerCase());
+        return (Usuarios)q.getSingleResult();
+    }
     public Usuarios findUsuarios(Long id) {
         EntityManager em = super.getEmf().createEntityManager();
         try {

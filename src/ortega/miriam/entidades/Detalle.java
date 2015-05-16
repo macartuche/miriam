@@ -32,7 +32,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Detalle.findById", query = "SELECT d FROM Detalle d WHERE d.id = :id"),
     @NamedQuery(name = "Detalle.findByCantidad", query = "SELECT d FROM Detalle d WHERE d.cantidad = :cantidad"),
     @NamedQuery(name = "Detalle.findByPreciounitario", query = "SELECT d FROM Detalle d WHERE d.preciounitario = :preciounitario"),
-    @NamedQuery(name = "Detalle.findByTotal", query = "SELECT d FROM Detalle d WHERE d.total = :total")})
+    @NamedQuery(name = "Detalle.findByTotal", query = "SELECT d FROM Detalle d WHERE d.total = :total"),
+    @NamedQuery(name = "Detalle.findByIva", query = "SELECT d FROM Detalle d WHERE d.iva = :iva")})
 public class Detalle implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -48,12 +49,18 @@ public class Detalle implements Serializable {
     private BigDecimal preciounitario;
     @Column(name = "total")
     private BigDecimal total;
+    @Basic(optional = false)
+    @Column(name = "iva")
+    private BigDecimal iva;
     @JoinColumn(name = "idproducto", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Producto idproducto;
     @JoinColumn(name = "idfactura", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Factura idfactura;
+    @JoinColumn(name = "iva_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Iva ivaId;
 
     public Detalle() {
     }
@@ -62,9 +69,10 @@ public class Detalle implements Serializable {
         this.id = id;
     }
 
-    public Detalle(Long id, int cantidad) {
+    public Detalle(Long id, int cantidad, BigDecimal iva) {
         this.id = id;
         this.cantidad = cantidad;
+        this.iva = iva;
     }
 
     public Long getId() {
@@ -99,6 +107,14 @@ public class Detalle implements Serializable {
         this.total = total;
     }
 
+    public BigDecimal getIva() {
+        return iva;
+    }
+
+    public void setIva(BigDecimal iva) {
+        this.iva = iva;
+    }
+
     public Producto getIdproducto() {
         return idproducto;
     }
@@ -113,6 +129,14 @@ public class Detalle implements Serializable {
 
     public void setIdfactura(Factura idfactura) {
         this.idfactura = idfactura;
+    }
+
+    public Iva getIvaId() {
+        return ivaId;
+    }
+
+    public void setIvaId(Iva ivaId) {
+        this.ivaId = ivaId;
     }
 
     @Override

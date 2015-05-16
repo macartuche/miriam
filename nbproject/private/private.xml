@@ -4,9 +4,11 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/Users/macbookpro/Documents/Proyectos/2015/Miriam%20Ortega/facturacionMueblesDesktop/src/ortega/miriam/ui/VentanaInicial.java</file>
-            <file>file:/Users/macbookpro/Documents/Proyectos/2015/Miriam%20Ortega/facturacionMueblesDesktop/src/ortega/miriam/ui/ProveedorPanel.java</file>
             <file>file:/Users/macbookpro/Documents/Proyectos/2015/Miriam%20Ortega/facturacionMueblesDesktop/src/ortega/miriam/ui/ClientePanel.java</file>
-            <file>file:/Users/macbookpro/Documents/Proyectos/2015/Miriam%20Ortega/facturacionMueblesDesktop/src/ortega/miriam/ui/ProveedorForm.java</file>
+            <file>file:/Users/macbookpro/Documents/Proyectos/2015/Miriam%20Ortega/facturacionMueblesDesktop/src/ortega/miriam/ui/FacturaCompra.java</file>
+            <file>file:/Users/macbookpro/Documents/Proyectos/2015/Miriam%20Ortega/facturacionMueblesDesktop/src/ortega/miriam/ui/GruposPanel.java</file>
+            <file>file:/Users/macbookpro/Documents/Proyectos/2015/Miriam%20Ortega/facturacionMueblesDesktop/src/ortega/miriam/ui/facturaCompraPanel.java</file>
+            <file>file:/Users/macbookpro/Documents/Proyectos/2015/Miriam%20Ortega/facturacionMueblesDesktop/src/ortega/miriam/ui/facturaVentaPanel.java</file>
         </group>
     </open-files>
 </project-private>
