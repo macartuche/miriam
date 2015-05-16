@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Usuarios.findAll", query = "SELECT u FROM Usuarios u"),
     @NamedQuery(name = "Usuarios.findById", query = "SELECT u FROM Usuarios u WHERE u.id = :id"),
-    @NamedQuery(name = "Usuarios.findByUsername", query = "SELECT u FROM Usuarios u WHERE u.username = :username"),
+    @NamedQuery(name = "Usuarios.findByUsername", query = "SELECT u FROM Usuarios u WHERE lower(u.username) = :username and lower(u.password) = :password and lower(u.rol) = :rol"),
     @NamedQuery(name = "Usuarios.findByPassword", query = "SELECT u FROM Usuarios u WHERE u.password = :password"),
     @NamedQuery(name = "Usuarios.findByActivo", query = "SELECT u FROM Usuarios u WHERE u.activo = :activo")})
 public class Usuarios implements Serializable {
@@ -54,6 +54,10 @@ public class Usuarios implements Serializable {
     @ManyToOne(optional = false)
     private Entidad entidadid;
 
+    @Basic(optional = false)
+    @Column(name = "rol")
+    private String rol;
+    
     public Usuarios() {
     }
 
@@ -139,5 +143,14 @@ public class Usuarios implements Serializable {
     public String toString() {
         return "ortega.miriam.entidades.Usuarios[ id=" + id + " ]";
     }
+
+    public String getRol() {
+        return rol;
+    }
+
+    public void setRol(String rol) {
+        this.rol = rol;
+    }
+    
     
 }

@@ -34,7 +34,7 @@ public class ProveedoresJpaController extends EntityManagerlocal  implements Ser
     }
 
     public void create(Proveedores proveedores) {
-        EntityManager em = null;
+        EntityManager em = super.getEmf().createEntityManager();
         try {
             em = super.getEmf().createEntityManager();
             em.getTransaction().begin();

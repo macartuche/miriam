@@ -65,7 +65,7 @@ public class Factura implements Serializable {
     @JoinColumn(name = "idcliente", referencedColumnName = "id")
     @ManyToOne
     private Clientes idcliente;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idfactura")
+    @OneToMany( cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "idfactura")
     private List<Detalle> detalleList;
     @Column(name = "numero")
     private String numero;

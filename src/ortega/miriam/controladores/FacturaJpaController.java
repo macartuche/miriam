@@ -68,12 +68,12 @@ public class FacturaJpaController extends EntityManagerlocal  implements Seriali
                 attachedKardexList.add(kardexListKardexToAttach);
             }
             factura.setKardexList(attachedKardexList);
-            List<Detalle> attachedDetalleList = new ArrayList<Detalle>();
-            for (Detalle detalleListDetalleToAttach : factura.getDetalleList()) {
-                detalleListDetalleToAttach = em.getReference(detalleListDetalleToAttach.getClass(), detalleListDetalleToAttach.getId());
-                attachedDetalleList.add(detalleListDetalleToAttach);
-            }
-            factura.setDetalleList(attachedDetalleList);
+//            List<Detalle> attachedDetalleList = new ArrayList<Detalle>();
+//            for (Detalle detalleListDetalleToAttach : factura.getDetalleList()) {
+//                detalleListDetalleToAttach = em.getReference(detalleListDetalleToAttach.getClass(), detalleListDetalleToAttach.getId());
+//                attachedDetalleList.add(detalleListDetalleToAttach);
+//            }
+//            factura.setDetalleList(attachedDetalleList);
             em.persist(factura);
             if (idproveedor != null) {
                 idproveedor.getFacturaList().add(factura);
@@ -97,13 +97,17 @@ public class FacturaJpaController extends EntityManagerlocal  implements Seriali
                 }
             }
             for (Detalle detalleListDetalle : factura.getDetalleList()) {
-                Factura oldIdfacturaOfDetalleListDetalle = detalleListDetalle.getIdfactura();
-                detalleListDetalle.setIdfactura(factura);
-                detalleListDetalle = em.merge(detalleListDetalle);
-                if (oldIdfacturaOfDetalleListDetalle != null) {
-                    oldIdfacturaOfDetalleListDetalle.getDetalleList().remove(detalleListDetalle);
-                    oldIdfacturaOfDetalleListDetalle = em.merge(oldIdfacturaOfDetalleListDetalle);
+                 detalleListDetalle.setIdfactura(factura);
+                if(detalleListDetalle.getId()==null){
+                    em.persist(detalleListDetalle);
+                }else{
+                    em.merge(detalleListDetalle);
                 }
+//                detalleListDetalle = em.merge(detalleListDetalle);
+//                if (oldIdfacturaOfDetalleListDetalle != null) {
+//                    oldIdfacturaOfDetalleListDetalle.getDetalleList().remove(detalleListDetalle);
+//                    oldIdfacturaOfDetalleListDetalle = em.merge(oldIdfacturaOfDetalleListDetalle);
+//                }
             }
             em.getTransaction().commit();
         } finally {
