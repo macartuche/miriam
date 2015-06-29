@@ -235,9 +235,9 @@ public class SelecProdCant extends javax.swing.JDialog {
 
         if (detalle.getIdproducto() != null) {
             Iva iva = (Iva) ivaCombo.getSelectedItem();
-            detalle.setIvaId(iva);
-            detalle.setIva(iva.getValor().multiply(detalle.getIdproducto().getPrecioCompra()));
-//            calcular(detalle.getProducto());
+//            detalle.setIvaId(iva);
+//            detalle.setIva(iva.getValor().multiply(detalle.getIdproducto().getPrecioCompra()));
+            calcular(detalle.getIdproducto());
             if(this.tipo==1){
                 FacturaCompra.recibirDetalle(detalle);
             }else{
@@ -284,15 +284,16 @@ public class SelecProdCant extends javax.swing.JDialog {
         Iva iva = (Iva) ivaCombo.getSelectedItem();
         BigDecimal ivaValor = subtotal.multiply(iva.getValor());
         BigDecimal total = subtotal.add(ivaValor);
-        total.setScale(2, BigDecimal.ROUND_HALF_UP);
+        subtotal.setScale(2, BigDecimal.ROUND_HALF_UP);
         
-        totalTxt.setText(total.toString());
+        totalTxt.setText(subtotal.toString());
         detalle.setPreciounitario(p.getPrecioCompra());
         detalle.setCantidad(cant);
-        detalle.setTotal(total);
+        detalle.setTotal(subtotal);
         detalle.setIva(ivaValor);
         //12 o 0% de iva 
         detalle.setIvaId(iva);
+        System.out.println("===>"+detalle.getTotal());
     }
 
     /**

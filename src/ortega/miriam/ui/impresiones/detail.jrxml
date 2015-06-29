@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="detail" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="27f0cdf7-61e0-432b-8649-fe0c5a1d7be0">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="idproducto" class="ortega.miriam.entidades.Producto">
+		<fieldDescription><![CDATA[idproducto]]></fieldDescription>
+	</field>
+	<field name="id" class="java.lang.Long">
+		<fieldDescription><![CDATA[id]]></fieldDescription>
+	</field>
+	<field name="iva" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[iva]]></fieldDescription>
+	</field>
+	<field name="total" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[total]]></fieldDescription>
+	</field>
+	<field name="ivaId" class="ortega.miriam.entidades.Iva">
+		<fieldDescription><![CDATA[ivaId]]></fieldDescription>
+	</field>
+	<field name="preciounitario" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[preciounitario]]></fieldDescription>
+	</field>
+	<field name="cantidad" class="java.lang.Integer">
+		<fieldDescription><![CDATA[cantidad]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="41" splitType="Stretch">
+			<frame>
+				<reportElement x="0" y="0" width="555" height="40" uuid="dcd8df1c-39d8-455e-b6c0-bc238004a086"/>
+				<textField>
+					<reportElement x="0" y="20" width="100" height="20" uuid="63bb5ec0-0860-4166-9800-1dd3642d8c15"/>
+					<textFieldExpression><![CDATA[$F{cantidad}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="0" width="100" height="20" uuid="1b1050fb-0ddf-4003-9ddf-57e6a5208b8a"/>
+					<text><![CDATA[Cantidad]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="100" y="20" width="255" height="20" uuid="5d1fae20-0d62-4555-b4f7-be5391988710"/>
+					<textFieldExpression><![CDATA[$F{idproducto}.getNombre()]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="100" y="0" width="255" height="20" uuid="42ac5b61-3335-4f14-80a3-ed397de74db5"/>
+					<text><![CDATA[Detalle]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="355" y="20" width="100" height="20" uuid="1b5c3895-ee2a-43b8-814c-ccefc2417f45"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[$F{preciounitario}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="355" y="0" width="100" height="20" uuid="e4a13e23-ea64-4df6-9e42-e487aa1801fb"/>
+					<textElement textAlignment="Center"/>
+					<text><![CDATA[Precio unitario]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="455" y="20" width="100" height="20" uuid="427fea3a-1036-463e-921b-fdb492b22f92"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="455" y="0" width="100" height="20" uuid="a3f1d7e7-c788-4f04-9134-3317a9f2bcce"/>
+					<textElement textAlignment="Center"/>
+					<text><![CDATA[Total]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</detail>
+</jasperReport>

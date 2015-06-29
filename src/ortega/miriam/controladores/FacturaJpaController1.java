@@ -13,11 +13,12 @@ import javax.persistence.criteria.Root;
 import ortega.miriam.entidades.Proveedores;
 import ortega.miriam.entidades.TipoFactura;
 import ortega.miriam.entidades.Clientes;
+import ortega.miriam.entidades.CuentasCxP;
 import ortega.miriam.entidades.Kardex;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import javax.persistence.EntityManager; 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import ortega.miriam.controladores.exceptions.IllegalOrphanException;
 import ortega.miriam.controladores.exceptions.NonexistentEntityException;
 import ortega.miriam.entidades.Detalle;
@@ -27,10 +28,12 @@ import ortega.miriam.entidades.Factura;
  *
  * @author macbookpro
  */
-public class FacturaJpaController extends EntityManagerlocal  implements Serializable  {
-    public FacturaJpaController() {
-         super();
-    } 
+public class FacturaJpaController1 implements Serializable {
+
+    public FacturaJpaController1(EntityManagerFactory emf) {
+        this.emf = emf;
+    }
+    private EntityManagerFactory emf = null;
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
@@ -45,7 +48,7 @@ public class FacturaJpaController extends EntityManagerlocal  implements Seriali
         }
         EntityManager em = null;
         try {
-            em = super.getEmf().createEntityManager();
+            em = getEntityManager();
             em.getTransaction().begin();
             Proveedores idproveedor = factura.getIdproveedor();
             if (idproveedor != null) {
@@ -62,18 +65,23 @@ public class FacturaJpaController extends EntityManagerlocal  implements Seriali
                 idcliente = em.getReference(idcliente.getClass(), idcliente.getId());
                 factura.setIdcliente(idcliente);
             }
+            CuentasCxP cuenta = factura.getCuenta();
+            if (cuenta != null) {
+                cuenta = em.getReference(cuenta.getClass(), cuenta.getId());
+                factura.setCuenta(cuenta);
+            }
             List<Kardex> attachedKardexList = new ArrayList<Kardex>();
             for (Kardex kardexListKardexToAttach : factura.getKardexList()) {
                 kardexListKardexToAttach = em.getReference(kardexListKardexToAttach.getClass(), kardexListKardexToAttach.getId());
                 attachedKardexList.add(kardexListKardexToAttach);
             }
             factura.setKardexList(attachedKardexList);
-//            List<Detalle> attachedDetalleList = new ArrayList<Detalle>();
-//            for (Detalle detalleListDetalleToAttach : factura.getDetalleList()) {
-//                detalleListDetalleToAttach = em.getReference(detalleListDetalleToAttach.getClass(), detalleListDetalleToAttach.getId());
-//                attachedDetalleList.add(detalleListDetalleToAttach);
-//            }
-//            factura.setDetalleList(attachedDetalleList);
+            List<Detalle> attachedDetalleList = new ArrayList<Detalle>();
+            for (Detalle detalleListDetalleToAttach : factura.getDetalleList()) {
+                detalleListDetalleToAttach = em.getReference(detalleListDetalleToAttach.getClass(), detalleListDetalleToAttach.getId());
+                attachedDetalleList.add(detalleListDetalleToAttach);
+            }
+            factura.setDetalleList(attachedDetalleList);
             em.persist(factura);
             if (idproveedor != null) {
                 idproveedor.getFacturaList().add(factura);
@@ -87,6 +95,15 @@ public class FacturaJpaController extends EntityManagerlocal  implements Seriali
                 idcliente.getFacturaList().add(factura);
                 idcliente = em.merge(idcliente);
             }
+            if (cuenta != null) {
+                Factura oldFacturaIdOfCuenta = cuenta.getFacturaId();
+                if (oldFacturaIdOfCuenta != null) {
+                    oldFacturaIdOfCuenta.setCuenta(null);
+                    oldFacturaIdOfCuenta = em.merge(oldFacturaIdOfCuenta);
+                }
+                cuenta.setFacturaId(factura);
+                cuenta = em.merge(cuenta);
+            }
             for (Kardex kardexListKardex : factura.getKardexList()) {
                 Factura oldIdfacturaOfKardexListKardex = kardexListKardex.getIdfactura();
                 kardexListKardex.setIdfactura(factura);
@@ -97,17 +114,13 @@ public class FacturaJpaController extends EntityManagerlocal  implements Seriali
                 }
             }
             for (Detalle detalleListDetalle : factura.getDetalleList()) {
-                 detalleListDetalle.setIdfactura(factura);
-                if(detalleListDetalle.getId()==null){
-                    em.persist(detalleListDetalle);
-                }else{
-                    em.merge(detalleListDetalle);
+                Factura oldIdfacturaOfDetalleListDetalle = detalleListDetalle.getIdfactura();
+                detalleListDetalle.setIdfactura(factura);
+                detalleListDetalle = em.merge(detalleListDetalle);
+                if (oldIdfacturaOfDetalleListDetalle != null) {
+                    oldIdfacturaOfDetalleListDetalle.getDetalleList().remove(detalleListDetalle);
+                    oldIdfacturaOfDetalleListDetalle = em.merge(oldIdfacturaOfDetalleListDetalle);
                 }
-//                detalleListDetalle = em.merge(detalleListDetalle);
-//                if (oldIdfacturaOfDetalleListDetalle != null) {
-//                    oldIdfacturaOfDetalleListDetalle.getDetalleList().remove(detalleListDetalle);
-//                    oldIdfacturaOfDetalleListDetalle = em.merge(oldIdfacturaOfDetalleListDetalle);
-//                }
             }
             em.getTransaction().commit();
         } finally {
@@ -120,7 +133,7 @@ public class FacturaJpaController extends EntityManagerlocal  implements Seriali
     public void edit(Factura factura) throws IllegalOrphanException, NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
-            em = super.getEmf().createEntityManager();
+            em = getEntityManager();
             em.getTransaction().begin();
             Factura persistentFactura = em.find(Factura.class, factura.getId());
             Proveedores idproveedorOld = persistentFactura.getIdproveedor();
@@ -129,6 +142,8 @@ public class FacturaJpaController extends EntityManagerlocal  implements Seriali
             TipoFactura idtipofacNew = factura.getIdtipofac();
             Clientes idclienteOld = persistentFactura.getIdcliente();
             Clientes idclienteNew = factura.getIdcliente();
+            CuentasCxP cuentaOld = persistentFactura.getCuenta();
+            CuentasCxP cuentaNew = factura.getCuenta();
             List<Kardex> kardexListOld = persistentFactura.getKardexList();
             List<Kardex> kardexListNew = factura.getKardexList();
             List<Detalle> detalleListOld = persistentFactura.getDetalleList();
@@ -164,6 +179,10 @@ public class FacturaJpaController extends EntityManagerlocal  implements Seriali
             if (idclienteNew != null) {
                 idclienteNew = em.getReference(idclienteNew.getClass(), idclienteNew.getId());
                 factura.setIdcliente(idclienteNew);
+            }
+            if (cuentaNew != null) {
+                cuentaNew = em.getReference(cuentaNew.getClass(), cuentaNew.getId());
+                factura.setCuenta(cuentaNew);
             }
             List<Kardex> attachedKardexListNew = new ArrayList<Kardex>();
             for (Kardex kardexListNewKardexToAttach : kardexListNew) {
@@ -203,6 +222,19 @@ public class FacturaJpaController extends EntityManagerlocal  implements Seriali
             if (idclienteNew != null && !idclienteNew.equals(idclienteOld)) {
                 idclienteNew.getFacturaList().add(factura);
                 idclienteNew = em.merge(idclienteNew);
+            }
+            if (cuentaOld != null && !cuentaOld.equals(cuentaNew)) {
+                cuentaOld.setFacturaId(null);
+                cuentaOld = em.merge(cuentaOld);
+            }
+            if (cuentaNew != null && !cuentaNew.equals(cuentaOld)) {
+                Factura oldFacturaIdOfCuenta = cuentaNew.getFacturaId();
+                if (oldFacturaIdOfCuenta != null) {
+                    oldFacturaIdOfCuenta.setCuenta(null);
+                    oldFacturaIdOfCuenta = em.merge(oldFacturaIdOfCuenta);
+                }
+                cuentaNew.setFacturaId(factura);
+                cuentaNew = em.merge(cuentaNew);
             }
             for (Kardex kardexListNewKardex : kardexListNew) {
                 if (!kardexListOld.contains(kardexListNewKardex)) {
@@ -246,7 +278,7 @@ public class FacturaJpaController extends EntityManagerlocal  implements Seriali
     public void destroy(Long id) throws IllegalOrphanException, NonexistentEntityException {
         EntityManager em = null;
         try {
-            em = super.getEmf().createEntityManager();
+            em = getEntityManager();
             em.getTransaction().begin();
             Factura factura;
             try {
@@ -288,6 +320,11 @@ public class FacturaJpaController extends EntityManagerlocal  implements Seriali
                 idcliente.getFacturaList().remove(factura);
                 idcliente = em.merge(idcliente);
             }
+            CuentasCxP cuenta = factura.getCuenta();
+            if (cuenta != null) {
+                cuenta.setFacturaId(null);
+                cuenta = em.merge(cuenta);
+            }
             em.remove(factura);
             em.getTransaction().commit();
         } finally {
@@ -306,7 +343,7 @@ public class FacturaJpaController extends EntityManagerlocal  implements Seriali
     }
 
     private List<Factura> findFacturaEntities(boolean all, int maxResults, int firstResult) {
-        EntityManager em = super.getEmf().createEntityManager();
+        EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(Factura.class));
@@ -322,46 +359,16 @@ public class FacturaJpaController extends EntityManagerlocal  implements Seriali
     }
 
     public Factura findFactura(Long id) {
-        EntityManager em = super.getEmf().createEntityManager();
+        EntityManager em = getEntityManager();
         try {
             return em.find(Factura.class, id);
         } finally {
             em.close();
         }
     }
-    
-    public List<Factura> getFacturas(Date from, Date until, String criteria, 
-            TipoFactura tipo){
-        EntityManager em = super.getEmf().createEntityManager();
-        String consulta ="Select f from Factura f "
-                + "where 1=1 ";
-        
-        if(from!=null && until !=null){
-            consulta += " and f.idtipofac=:tipo and "
-                    + "f.fecha between :desde and :hasta ";
-        }
-        
-        if(tipo.getId()==1L){ //compra
-            consulta += " and lower(f.idproveedor.entidadid.nombres) like :criteria";
-        }else{
-            consulta += " and lower(f.idcliente.entidadid.nombres) like :criteria";
-        }
-        consulta += " and f.idtipofac=:tipo ";
-        
-        Query query = em.createQuery(consulta);
-        if(from!=null && until!=null){
-           query.setParameter("desde", from);
-           query.setParameter("hasta", until);
-        }
-        
-        query.setParameter("tipo", tipo);
-        query.setParameter("criteria", "%"+criteria.toLowerCase()+"%");
-        
-        return query.getResultList();
-    }
 
     public int getFacturaCount() {
-        EntityManager em = super.getEmf().createEntityManager();
+        EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<Factura> rt = cq.from(Factura.class);

@@ -21,7 +21,7 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
+ * ortega.miriam.entidades.Detalle
  * @author macbookpro
  */
 @Entity

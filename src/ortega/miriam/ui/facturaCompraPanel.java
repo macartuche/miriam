@@ -5,15 +5,31 @@
  */
 package ortega.miriam.ui;
 
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
+import ortega.miriam.controladores.AbonosJpaController;
+import ortega.miriam.controladores.CuentasCxPJpaController;
 import ortega.miriam.controladores.DetalleJpaController;
 import ortega.miriam.controladores.FacturaJpaController;
 import ortega.miriam.controladores.TipoFacturaJpaController;
 import ortega.miriam.controladores.exceptions.NonexistentEntityException;
+import ortega.miriam.entidades.Abonos;
+import ortega.miriam.entidades.CuentasCxP;
 import ortega.miriam.entidades.Detalle;
 import ortega.miriam.entidades.Factura;
 import ortega.miriam.entidades.TipoFactura;
@@ -28,7 +44,8 @@ public class facturaCompraPanel extends javax.swing.JPanel {
     public static TipoFacturaJpaController controllerTipo;
     public static FacturaJpaController controller;
     public static DetalleJpaController controllerDetail;
-
+    public static CuentasCxPJpaController ctaController;
+    public static AbonosJpaController abonoController;
     /**
      * Creates new form facturaCompraPanel
      */
@@ -36,6 +53,8 @@ public class facturaCompraPanel extends javax.swing.JPanel {
         initComponents();
         controller = new FacturaJpaController();
         controllerTipo = new TipoFacturaJpaController();
+        ctaController = new CuentasCxPJpaController();
+        abonoController = new AbonosJpaController();
     }
 
     /**
@@ -55,7 +74,7 @@ public class facturaCompraPanel extends javax.swing.JPanel {
         list1=getList();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        proveedorTxt = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         desde = new com.toedter.calendar.JDateChooser();
         jLabel3 = new javax.swing.JLabel();
@@ -64,11 +83,10 @@ public class facturaCompraPanel extends javax.swing.JPanel {
         jButton2 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jButton5 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jLabel4 = new javax.swing.JLabel();
+        jButton7 = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Filtro", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Abadi MT Condensed Extra Bold", 0, 24))); // NOI18N
@@ -85,10 +103,20 @@ public class facturaCompraPanel extends javax.swing.JPanel {
         jButton1.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ortega/miriam/imagenes/search.png"))); // NOI18N
         jButton1.setText("Buscar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ortega/miriam/imagenes/clean.png"))); // NOI18N
         jButton2.setText("Limpiar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -102,8 +130,8 @@ public class facturaCompraPanel extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 590, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(proveedorTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 590, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 107, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(desde, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -114,9 +142,9 @@ public class facturaCompraPanel extends javax.swing.JPanel {
                                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGap(18, 18, 18)
                                 .addComponent(hasta, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(45, 45, 45))))
+                        .addGap(99, 99, 99))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -124,19 +152,21 @@ public class facturaCompraPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(proveedorTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(desde, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(hasta, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(desde, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton2)
-                            .addComponent(jButton1)))
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jButton1))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -145,13 +175,9 @@ public class facturaCompraPanel extends javax.swing.JPanel {
         jButton5.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ortega/miriam/imagenes/edit.png"))); // NOI18N
         jButton5.setText("Anular");
-
-        jButton4.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ortega/miriam/imagenes/edit.png"))); // NOI18N
-        jButton4.setText("Editar");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                jButton5ActionPerformed(evt);
             }
         });
 
@@ -165,9 +191,9 @@ public class facturaCompraPanel extends javax.swing.JPanel {
         });
 
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, list1, jTable1);
-        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${id}"));
-        columnBinding.setColumnName("Id");
-        columnBinding.setColumnClass(Long.class);
+        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${fecha}"));
+        columnBinding.setColumnName("Fecha");
+        columnBinding.setColumnClass(java.util.Date.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${numero}"));
         columnBinding.setColumnName("Numero");
         columnBinding.setColumnClass(String.class);
@@ -183,13 +209,25 @@ public class facturaCompraPanel extends javax.swing.JPanel {
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${total}"));
         columnBinding.setColumnName("Total");
         columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${estado}"));
+        columnBinding.setColumnName("Estado");
+        columnBinding.setColumnClass(String.class);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
         jScrollPane1.setViewportView(jTable1);
         if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setMinWidth(60);
-            jTable1.getColumnModel().getColumn(0).setMaxWidth(60);
+            jTable1.getColumnModel().getColumn(0).setMinWidth(90);
+            jTable1.getColumnModel().getColumn(0).setMaxWidth(90);
         }
+
+        jButton7.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
+        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ortega/miriam/imagenes/print.png"))); // NOI18N
+        jButton7.setText("Imprimir");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -199,13 +237,13 @@ public class facturaCompraPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 468, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 852, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 896, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -214,15 +252,12 @@ public class facturaCompraPanel extends javax.swing.JPanel {
                 .addGap(21, 21, 21)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton3)
-                    .addComponent(jButton4)
-                    .addComponent(jButton5))
+                    .addComponent(jButton5)
+                    .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(29, Short.MAX_VALUE))
         );
-
-        jLabel4.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
-        jLabel4.setText("Facturas de venta");
 
         jLabel5.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         jLabel5.setText("Facturas de compra");
@@ -241,11 +276,6 @@ public class facturaCompraPanel extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(320, 320, 320))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jLabel4)
-                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -257,11 +287,6 @@ public class facturaCompraPanel extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jLabel4)
-                    .addGap(0, 0, Short.MAX_VALUE)))
         );
 
         bindingGroup.bind();
@@ -272,6 +297,7 @@ public class facturaCompraPanel extends javax.swing.JPanel {
         final Factura compra = new Factura();
         compra.setIdtipofac(facturaCompra);
         compra.setDetalleList(new ArrayList<Detalle>());
+        compra.setFecha(new Date());
         abrirFacturaCompra(compra);
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -294,12 +320,90 @@ public class facturaCompraPanel extends javax.swing.JPanel {
             }
         });
     }
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        Factura compra = getIndex();
-        if (compra != null) {
-            abrirFacturaCompra(compra);
+    //filtro de panel de facturas de compras
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String criteria = proveedorTxt.getText();
+        Date from = desde.getDate();
+        Date until = hasta.getDate();
+
+        if (from == null && until != null) {
+            errorFechas();
+            return;
         }
-    }//GEN-LAST:event_jButton4ActionPerformed
+
+        if (from != null && until == null) {
+            errorFechas();
+            return;
+        }
+
+        if(criteria==null){
+            criteria="";
+        }
+        TipoFactura tipo = controllerTipo.findTipoFactura(1L); 
+         list1 = controller.getFacturas(from, until,
+                criteria, tipo);
+       
+        generarTabla();
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        proveedorTxt.setText("");
+        desde.setDate(null);
+        hasta.setDate(null);
+        actualizar();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+
+        Factura compra = getIndex();
+        List<Factura> facturas = new ArrayList<>();
+        facturas.add(compra);
+        String reportPath = "/Users/macbookpro/Documents/Proyectos/2015"
+        + "/Miriam Ortega/facturacionMueblesDesktop/src/"
+        + "ortega/miriam/ui/impresiones/FacturaC.jasper";
+
+        try {
+            FileInputStream fis = new FileInputStream(reportPath);
+            BufferedInputStream bufferedInputStream = new BufferedInputStream(fis);
+            JasperReport jasperReport = (JasperReport) JRLoader.loadObject(bufferedInputStream);
+            JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(facturas);
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, new HashMap(), beanCollectionDataSource);
+            // view report to UI
+            JasperViewer.viewReport(jasperPrint, false);
+
+        } catch (JRException ex) {
+            Logger.getLogger(FacturaVenta.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(FacturaVenta.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        try {
+            Factura compra = getIndex();
+            compra.setEstado("INACTIVA");
+            controller.edit(compra);
+            //eliminar los abonos y cuentas por cobrar
+            List<Abonos> abonos = compra.getCuenta().getAbonos();
+            for (Abonos abono : abonos) {
+                abonoController.destroy(abono.getId());
+            }
+            //eliminar la cuenta
+            ctaController.destroy(compra.getCuenta().getId());
+            JOptionPane.showMessageDialog(this, "Registro actualizado", 
+                    "Información", JOptionPane.INFORMATION_MESSAGE);
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(facturaVentaPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(facturaVentaPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void errorFechas() {
+        String error = "Debe seleccionar un rango de fechas para la búsqueda";
+        JOptionPane.showMessageDialog(this, error, "ERROR", JOptionPane.ERROR_MESSAGE);
+    }
 
     private Factura getIndex() {
         int index = jTable1.getSelectedRow();
@@ -325,21 +429,18 @@ public class facturaCompraPanel extends javax.swing.JPanel {
         String tipoMensaje = "";
         String tituloMensaje = "";
         int tipoMens = 0;
+        factura.setEstado("ACTIVA");
         controller.create(factura);
-        /*for (Detalle lista1 : factura.getDetalleList()) {
-         De            detalle.setCantidad(lista1.getCantidad());
-         detalle.setIdfactura(factura);
-         detalle.setIdproducto(lista1.getProducto());
-         detalle.setPreciounitario(lista1.getPrecioUnitario());
-         detalle.setTotal(lista1.getPrecioTotal());
-         if (detalle) {
-
-         controllerDetail.create(detalle);
-         }else{
-                
-         controllerDetail.edit(detalle);
-         }
-         }*/
+        
+        CuentasCxP cobrar = new CuentasCxP();
+        cobrar.setFacturaId(factura);
+        cobrar.setEstado("ABIERTA");
+        cobrar.setFecha(new Date());
+        cobrar.setTipo("PAGAR");
+        cobrar.setTotal(factura.getTotal());
+        cobrar.setSaldo(factura.getTotal());
+        ctaController.create(cobrar);
+        
         tipoMensaje = "El registro ha sido actualizado con éxito";
         tituloMensaje = "Información";
         tipoMens = JOptionPane.INFORMATION_MESSAGE;
@@ -371,22 +472,14 @@ public class facturaCompraPanel extends javax.swing.JPanel {
         RolPanel.actualizar();
     }
 
-    public static void actualizar() {
-        //ilst1.clear();
-        List<Factura> facturas = getList();
-        for (Factura compra : facturas) {
-//            entityManager1.refresh(compra.getId());
-            entityManager1.refresh(compra);
-        }
-        list1 = facturas;
-
+    private static void generarTabla(){
         org.jdesktop.swingbinding.JTableBinding jTableBinding
                 = org.jdesktop.swingbinding.SwingBindings.
                 createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, list1,
                         jTable1);
-        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${id}"));
-        columnBinding.setColumnName("Id");
-        columnBinding.setColumnClass(Long.class);
+       org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${fecha}"));
+        columnBinding.setColumnName("Fecha");
+        columnBinding.setColumnClass(java.util.Date.class); 
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${numero}"));
         columnBinding.setColumnName("Numero");
         columnBinding.setColumnClass(String.class);
@@ -404,10 +497,21 @@ public class facturaCompraPanel extends javax.swing.JPanel {
         columnBinding.setColumnClass(java.math.BigDecimal.class);
         jTableBinding.bind();
         jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setMinWidth(60);
-            jTable1.getColumnModel().getColumn(0).setMaxWidth(60);
+        if (jTable1.getColumnModel().getColumnCount() > 0) { 
+            jTable1.getColumnModel().getColumn(0).setMinWidth(90);
+            jTable1.getColumnModel().getColumn(0).setMaxWidth(90); 
         }
+    }
+    public static void actualizar() {
+        //ilst1.clear();
+        List<Factura> facturas = getList();
+        for (Factura compra : facturas) {
+//            entityManager1.refresh(compra.getId());
+            entityManager1.refresh(compra);
+        }
+        list1 = facturas; 
+        generarTabla();
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -418,19 +522,18 @@ public class facturaCompraPanel extends javax.swing.JPanel {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private static javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private static javax.swing.JScrollPane jScrollPane1;
     public static javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
     public static java.util.List<Factura> list1;
+    private javax.swing.JTextField proveedorTxt;
     public static javax.persistence.Query rowCountQuery;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables

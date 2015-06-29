@@ -5,15 +5,31 @@
  */
 package ortega.miriam.ui;
 
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
+import ortega.miriam.controladores.AbonosJpaController;
+import ortega.miriam.controladores.CuentasCxPJpaController;
 import ortega.miriam.controladores.DetalleJpaController;
 import ortega.miriam.controladores.FacturaJpaController;
 import ortega.miriam.controladores.TipoFacturaJpaController;
 import ortega.miriam.controladores.exceptions.NonexistentEntityException;
+import ortega.miriam.entidades.Abonos;
+import ortega.miriam.entidades.CuentasCxP;
 import ortega.miriam.entidades.Detalle;
 import ortega.miriam.entidades.Factura;
 import ortega.miriam.entidades.TipoFactura;
@@ -28,6 +44,8 @@ public class facturaVentaPanel extends javax.swing.JPanel {
     public static TipoFacturaJpaController controllerTipo;
     public static FacturaJpaController controller;
     public static DetalleJpaController controllerDetail;
+    public static CuentasCxPJpaController ctaController;
+    public static AbonosJpaController abonoController;
 
     /**
      * Creates new form facturaCompraPanel
@@ -36,6 +54,8 @@ public class facturaVentaPanel extends javax.swing.JPanel {
         initComponents();
         controller = new FacturaJpaController();
         controllerTipo = new TipoFacturaJpaController();
+        ctaController = new CuentasCxPJpaController();
+        abonoController = new AbonosJpaController();
     }
 
     /**
@@ -55,7 +75,7 @@ public class facturaVentaPanel extends javax.swing.JPanel {
         list1=getList();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        clienteTxt = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         desde = new com.toedter.calendar.JDateChooser();
         jLabel3 = new javax.swing.JLabel();
@@ -64,10 +84,10 @@ public class facturaVentaPanel extends javax.swing.JPanel {
         jButton2 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jButton5 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jButton7 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Filtro", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Abadi MT Condensed Extra Bold", 0, 24))); // NOI18N
@@ -84,10 +104,20 @@ public class facturaVentaPanel extends javax.swing.JPanel {
         jButton1.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ortega/miriam/imagenes/search.png"))); // NOI18N
         jButton1.setText("Buscar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ortega/miriam/imagenes/clean.png"))); // NOI18N
         jButton2.setText("Limpiar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -106,7 +136,7 @@ public class facturaVentaPanel extends javax.swing.JPanel {
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(32, 32, 32)
                         .addComponent(hasta, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 590, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(clienteTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 590, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -119,7 +149,7 @@ public class facturaVentaPanel extends javax.swing.JPanel {
                 .addGap(7, 7, 7)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(clienteTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -140,10 +170,11 @@ public class facturaVentaPanel extends javax.swing.JPanel {
         jButton5.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ortega/miriam/imagenes/edit.png"))); // NOI18N
         jButton5.setText("Anular");
-
-        jButton4.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ortega/miriam/imagenes/edit.png"))); // NOI18N
-        jButton4.setText("Editar");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         jButton3.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ortega/miriam/imagenes/add1.png"))); // NOI18N
@@ -155,9 +186,9 @@ public class facturaVentaPanel extends javax.swing.JPanel {
         });
 
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, list1, jTable1);
-        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${id}"));
-        columnBinding.setColumnName("Id");
-        columnBinding.setColumnClass(Long.class);
+        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${fecha}"));
+        columnBinding.setColumnName("Fecha");
+        columnBinding.setColumnClass(java.util.Date.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${numero}"));
         columnBinding.setColumnName("Numero");
         columnBinding.setColumnClass(String.class);
@@ -177,9 +208,18 @@ public class facturaVentaPanel extends javax.swing.JPanel {
         jTableBinding.bind();
         jScrollPane1.setViewportView(jTable1);
         if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setMinWidth(60);
-            jTable1.getColumnModel().getColumn(0).setMaxWidth(60);
+            jTable1.getColumnModel().getColumn(0).setMinWidth(90);
+            jTable1.getColumnModel().getColumn(0).setMaxWidth(90);
         }
+
+        jButton7.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
+        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ortega/miriam/imagenes/print.png"))); // NOI18N
+        jButton7.setText("Imprimir");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -189,14 +229,14 @@ public class facturaVentaPanel extends javax.swing.JPanel {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(25, 25, 25)
-                        .addComponent(jScrollPane1)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 803, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -205,8 +245,8 @@ public class facturaVentaPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton3)
-                    .addComponent(jButton4)
-                    .addComponent(jButton5))
+                    .addComponent(jButton5)
+                    .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(14, Short.MAX_VALUE))
@@ -256,6 +296,7 @@ public class facturaVentaPanel extends javax.swing.JPanel {
                 final Factura compra = new Factura();
                 compra.setIdtipofac(facturaVenta);
                 compra.setDetalleList(new ArrayList<Detalle>());
+                compra.setFecha(new Date());
 
                 final FacturaVenta dialog = new FacturaVenta(new javax.swing.JFrame(), true, compra);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -268,6 +309,100 @@ public class facturaVentaPanel extends javax.swing.JPanel {
             }
         });
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String criteria = clienteTxt.getText();
+        Date from = desde.getDate();
+        Date until = hasta.getDate();
+
+        if (from == null && until != null) {
+            errorFechas();
+            return;
+        }
+
+        if (from != null && until == null) {
+            errorFechas();
+            return;
+        }
+
+        if (criteria == null) {
+            criteria = "";
+        }
+        TipoFactura tipo = controllerTipo.findTipoFactura(2L);
+        list1 = controller.getFacturas(from, until,
+                criteria, tipo);
+
+        generarTabla();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void errorFechas() {
+        String error = "Debe seleccionar un rango de fechas para la búsqueda";
+        JOptionPane.showMessageDialog(this, error, "ERROR", JOptionPane.ERROR_MESSAGE);
+    }
+
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        clienteTxt.setText("");
+        desde.setDate(null);
+        hasta.setDate(null);
+        actualizar();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private Factura getIndex() {
+        int index = jTable1.getSelectedRow();
+        Factura compra = null;
+        if (index != -1) {
+            compra = list1.get(index);
+        } else {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una fila", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
+        return compra;
+    }
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+
+        Factura venta = getIndex();
+        List<Factura> facturas = new ArrayList<>();
+        facturas.add(venta);
+        String reportPath = "/Users/macbookpro/Documents/Proyectos/2015"
+                + "/Miriam Ortega/facturacionMueblesDesktop/src/"
+                + "ortega/miriam/ui/impresiones/Factura.jasper";
+
+        try {
+            FileInputStream fis = new FileInputStream(reportPath);
+            BufferedInputStream bufferedInputStream = new BufferedInputStream(fis);
+            JasperReport jasperReport = (JasperReport) JRLoader.loadObject(bufferedInputStream);
+            JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(facturas);
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, new HashMap(), beanCollectionDataSource);
+            // view report to UI
+            JasperViewer.viewReport(jasperPrint, false);
+
+        } catch (JRException ex) {
+            Logger.getLogger(FacturaVenta.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(FacturaVenta.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        try {
+            Factura venta = getIndex();
+            venta.setEstado("INACTIVA");
+            controller.edit(venta);
+            //eliminar los abonos y cuentas por cobrar
+            List<Abonos> abonos = venta.getCuenta().getAbonos();
+            for (Abonos abono : abonos) {
+                abonoController.destroy(abono.getId());
+            }
+            //eliminar la cuenta
+            ctaController.destroy(venta.getCuenta().getId());
+            JOptionPane.showMessageDialog(this, "Registro actualizado", 
+                    "Información", JOptionPane.INFORMATION_MESSAGE);
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(facturaVentaPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(facturaVentaPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      *
@@ -282,8 +417,18 @@ public class facturaVentaPanel extends javax.swing.JPanel {
         String tipoMensaje = "";
         String tituloMensaje = "";
         int tipoMens = 0;
+
         controller.create(factura);
-      
+        //crear tambien la cuenta por cobrar
+        CuentasCxP cobrar = new CuentasCxP();
+        cobrar.setFacturaId(factura);
+        cobrar.setEstado("ABIERTA");
+        cobrar.setFecha(new Date());
+        cobrar.setTipo("COBRAR");
+        cobrar.setTotal(factura.getTotal());
+        cobrar.setSaldo(factura.getTotal());
+        ctaController.create(cobrar);
+
         tipoMensaje = "El registro ha sido actualizado con éxito";
         tituloMensaje = "Información";
         tipoMens = JOptionPane.INFORMATION_MESSAGE;
@@ -315,19 +460,12 @@ public class facturaVentaPanel extends javax.swing.JPanel {
         RolPanel.actualizar();
     }
 
-    public static void actualizar() {
-        //ilst1.clear();
-        List<Factura> facturas = getList();
-        for (Factura compra : facturas) {
-//            entityManager1.refresh(compra.getId());
-            entityManager1.refresh(compra);
-        }
-        list1 = facturas;
-          
+    private static void generarTabla() {
+
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, list1, jTable1);
-        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${id}"));
-        columnBinding.setColumnName("Id");
-        columnBinding.setColumnClass(Long.class);
+        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${fecha}"));
+        columnBinding.setColumnName("Fecha");
+        columnBinding.setColumnClass(Date.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${numero}"));
         columnBinding.setColumnName("Numero");
         columnBinding.setColumnClass(String.class);
@@ -346,12 +484,24 @@ public class facturaVentaPanel extends javax.swing.JPanel {
         jTableBinding.bind();
         jScrollPane1.setViewportView(jTable1);
         if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setMinWidth(60);
-            jTable1.getColumnModel().getColumn(0).setMaxWidth(60);
+            jTable1.getColumnModel().getColumn(0).setMinWidth(90);
+            jTable1.getColumnModel().getColumn(0).setMaxWidth(90);
         }
     }
 
+    public static void actualizar() {
+        //ilst1.clear();
+        List<Factura> facturas = getList();
+        for (Factura compra : facturas) {
+//            entityManager1.refresh(compra.getId());
+            entityManager1.refresh(compra);
+        }
+        list1 = facturas;
+        generarTabla();
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField clienteTxt;
     private com.toedter.calendar.JDateChooser desde;
     public static javax.persistence.EntityManager entityManager1;
     public static javax.persistence.Query getRowsQuery;
@@ -359,8 +509,8 @@ public class facturaVentaPanel extends javax.swing.JPanel {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private static javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -369,7 +519,6 @@ public class facturaVentaPanel extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel2;
     private static javax.swing.JScrollPane jScrollPane1;
     public static javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
     public static java.util.List<Factura> list1;
     public static javax.persistence.Query rowCountQuery;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;

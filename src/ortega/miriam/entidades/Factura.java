@@ -7,11 +7,13 @@ package ortega.miriam.entidades;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,7 +22,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -38,6 +43,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Factura.findByIva", query = "SELECT f FROM Factura f WHERE f.iva = :iva"),
     @NamedQuery(name = "Factura.findByTotal", query = "SELECT f FROM Factura f WHERE f.total = :total")})
 public class Factura implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -65,12 +71,23 @@ public class Factura implements Serializable {
     @JoinColumn(name = "idcliente", referencedColumnName = "id")
     @ManyToOne
     private Clientes idcliente;
-    @OneToMany( cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "idfactura")
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "idfactura")
     private List<Detalle> detalleList;
     @Column(name = "numero")
     private String numero;
 
+    @Column(name = "fecha")
+    @Temporal(TemporalType.DATE)
+    private Date fecha;
+
+    @OneToOne(mappedBy = "facturaId", fetch = FetchType.LAZY)
+    private CuentasCxP cuenta;
+   
+    @Column(name = "estado")
+    private String estado;
+
     public Factura() {
+        this.estado = "ACTIVA";
     }
 
     public Factura(Long id) {
@@ -190,7 +207,29 @@ public class Factura implements Serializable {
     public void setNumero(String numero) {
         this.numero = numero;
     }
-    
-    
-    
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+
+    public CuentasCxP getCuenta() {
+        return cuenta;
+    }
+
+    public void setCuenta(CuentasCxP cuenta) {
+        this.cuenta = cuenta;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
 }
