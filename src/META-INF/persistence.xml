@@ -17,8 +17,9 @@
     <class>ortega.miriam.entidades.CuentasCxP</class>
     <class>ortega.miriam.entidades.Abonos</class>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/facturaMueblesDB2?zeroDateTimeBehavior=convertToNull"/>
-      <property name="javax.persistence.jdbc.password" value="root"/>
+      <!--<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/facturaMueblesdb2?zeroDateTimeBehavior=convertToNull"/>-->
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/base2?zeroDateTimeBehavior=convertToNull"/>
+      <property name="javax.persistence.jdbc.password" value=""/>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
       <property name="javax.persistence.schema-generation.database.action" value="create"/>

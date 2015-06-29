@@ -5,6 +5,7 @@
  */
 package ortega.miriam.ui;
 
+import javax.persistence.NoResultException;
 import javax.swing.JOptionPane;
 import ortega.miriam.controladores.UsuariosJpaController;
 import ortega.miriam.entidades.Usuarios;
@@ -41,6 +42,8 @@ public class Login extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
         rol = new javax.swing.JComboBox();
         jButton1 = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        password = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -56,7 +59,7 @@ public class Login extends javax.swing.JDialog {
         jLabel3.setText("Usuario: ");
 
         rol.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        rol.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Administrador", "Secretario" }));
+        rol.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Administrador", "Secretaria" }));
 
         jButton1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ortega/miriam/imagenes/key.png"))); // NOI18N
@@ -67,26 +70,33 @@ public class Login extends javax.swing.JDialog {
             }
         });
 
+        jLabel4.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel4.setText("Clave:");
+
+        password.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(36, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(29, 29, 29)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(username)
-                            .addComponent(rol, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(password))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jButton1)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(29, 29, 29)
+                            .addComponent(rol, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(6, 6, 6)
+                            .addComponent(username, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(26, 26, 26))
         );
         layout.setVerticalGroup(
@@ -99,12 +109,18 @@ public class Login extends javax.swing.JDialog {
                     .addComponent(username, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(password))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(rol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jButton1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(21, 21, 21))
         );
 
         pack();
@@ -112,25 +128,45 @@ public class Login extends javax.swing.JDialog {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String user = this.username.getText();
-        if (!user.trim().isEmpty()) {
-            Usuarios usuario = loginController.findByUsername(user);
-            if (usuario == null) {
-                JOptionPane.showMessageDialog(this, "El usuario no existe", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
+        String password = this.password.getText();
+        String rolSelec = rol.getSelectedItem().toString();
+
+        if (!user.trim().isEmpty() && !password.trim().isEmpty()) {
+
+            try {
+                Usuarios usuario = loginController.find(user, password, rolSelec);
+                if (usuario == null) {
+                    JOptionPane.showMessageDialog(this, "El usuario no existe", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                switch (rolSelec) {
+                    case "Administrador":
+                        this.dispose();
+                        mostrarPrincipal();
+                        break;
+                    case "Secretaria":
+                        this.dispose();
+                        mostrarSecretaria();
+                        break;
+                }
+            } catch (NoResultException e) {
+                  JOptionPane.showMessageDialog(this, "Datos incorrectos", "Error", JOptionPane.ERROR_MESSAGE);   
             }
-            String rolSelec = rol.getSelectedItem().toString();
-            switch (rolSelec) {
-                case "Administrador":
-                    this.dispose();
-                    mostrarPrincipal();
-                    break;
-                case "Secretaria":
-                    break;
-            }
+
         } else {
             JOptionPane.showMessageDialog(this, "Ingrese el usuario", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void mostrarSecretaria() {
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                Secretaria frame = new Secretaria();
+                frame.setVisible(true);
+                frame.setLocationRelativeTo(null);
+            }
+        });
+    }
 
     private void mostrarPrincipal() {
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -190,6 +226,8 @@ public class Login extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JPasswordField password;
     private javax.swing.JComboBox rol;
     private javax.swing.JTextField username;
     // End of variables declaration//GEN-END:variables

@@ -375,6 +375,7 @@ public class facturaCompraPanel extends javax.swing.JPanel {
         } catch (JRException ex) {
             Logger.getLogger(FacturaVenta.class.getName()).log(Level.SEVERE, null, ex);
         } catch (FileNotFoundException ex) {
+            //comentario
             Logger.getLogger(FacturaVenta.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton7ActionPerformed
